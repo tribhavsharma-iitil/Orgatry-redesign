@@ -194,6 +194,7 @@ export function EmployeeFormDialog({
       form.reset({
         ...getDefaultValues(),
         ...employee,
+        phone: employee.phone ?? '',
         employeeId: employee.id ? (employee.employeeId ?? '') : '',
         joiningDate: employee.joiningDate
           ? String(employee.joiningDate).slice(0, 10)
@@ -282,7 +283,7 @@ export function EmployeeFormDialog({
               error={form.formState.errors.lastName?.message}
             />
             <FormField
-              label="Phone"
+              label="Phone (optional)"
               name="phone"
               register={form.register}
               error={form.formState.errors.phone?.message}

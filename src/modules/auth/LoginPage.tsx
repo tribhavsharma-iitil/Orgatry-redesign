@@ -59,8 +59,14 @@ export function LoginPage() {
   });
 
   useEffect(() => {
+    if (new URLSearchParams(location.search).get('reason') === 'access-removed') {
+      toast.error('Login access is removed. Contact the administrator.', {
+        id: 'login-access-removed'
+      });
+    }
+
     return () => abortControllerRef.current?.abort();
-  }, []);
+  }, [location.search]);
 
   const submit = (values: LoginFormValues) => {
     if (mutation.isPending) {

@@ -83,8 +83,17 @@ client.interceptors.response.use(
 
     if (statusCode === 401) {
       clearStoredAuth();
+      const isLoginRequest = axios.isAxiosError(error) && error.config?.url?.includes('/auth/login');
+
+      if (isLoginRequest) {
+        return Promise.reject(parsedError);
+      }
+
       if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-        window.location.assign('/login');
+        const loginPath = parsedError.message === 'Login access is removed. Contact the administrator.'
+          ? '/login?reason=access-removed'
+          : '/login';
+        window.location.assign(loginPath);
       }
 
       return Promise.reject(new ApiError('Session expired. Please sign in again.', 401, 'UNAUTHORIZED'));

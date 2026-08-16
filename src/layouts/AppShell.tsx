@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
 import { AppHeader } from '@/components/layouts/AppHeader';
-import { CommandPalette } from '@/components/shared/CommandPalette';
 import { AppSidebar } from '@/components/layouts/AppSidebar';
 import { useSyncAuthProfile } from '@/hooks/use-sync-auth-profile';
 import { cn } from '@/lib/utils';
@@ -21,7 +20,6 @@ export function AppShell() {
           </main>
         </div>
       </div>
-      <CommandPalette />
     </div>
   );
 }
