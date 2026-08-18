@@ -30,7 +30,7 @@ export const contactApi = {
       throw new Error('NEXT_PUBLIC_API_URL is required');
     }
 
-    const response = await axios.post<ContactResponse>(apiUrl, payload, {
+    const response = await axios.post<ContactResponse>(`${apiUrl}/contact`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }
