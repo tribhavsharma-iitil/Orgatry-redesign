@@ -42,6 +42,14 @@ const NAV_PILL_STYLE = {
   boxShadow: '0 8px 30px rgba(15, 23, 42, 0.08)'
 } as const;
 
+/** Dedicated marketing routes — everything but `home` now navigates instead of scrolling. */
+const NAV_ROUTE_BY_ID: Record<string, string> = {
+  solutions: '/solutions',
+  features: '/features',
+  'about-us': '/about-us',
+  contact: '/contact'
+};
+
 function OrgatryLogo({ onNavigate }: { onNavigate: () => void }) {
   return (
     <button
@@ -104,24 +112,32 @@ function LandingNavbarComponent() {
   const location = useLocation();
   const navigate = useNavigate();
   const isOnLanding = location.pathname === '/';
-  const activeId = useActiveSection({
+  const routeActiveId = Object.keys(NAV_ROUTE_BY_ID).find(
+    (id) => NAV_ROUTE_BY_ID[id] === location.pathname
+  );
+  const scrollActiveId = useActiveSection({
     sectionIds: isOnLanding ? landingNavSectionIds : []
   });
+  const activeId = routeActiveId ?? scrollActiveId;
   const { scrollToSection } = useSmoothScroll();
   const { isContentReady, showNavbarLogo, shiftNavbarControls } = useIntro();
 
   const handleNavigate = useCallback(
     (sectionId: string) => {
-      if (!isOnLanding) {
-        navigate(
-          sectionId === 'home'
-            ? { pathname: '/' }
-            : { pathname: '/', hash: sectionId }
-        );
+      if (sectionId === 'home') {
+        if (isOnLanding) {
+          scrollToSection('home');
+        } else {
+          navigate('/');
+        }
         setMobileOpen(false);
         return;
       }
-      scrollToSection(sectionId);
+
+      const path = NAV_ROUTE_BY_ID[sectionId];
+      if (path) {
+        navigate(path);
+      }
       setMobileOpen(false);
     },
     [isOnLanding, navigate, scrollToSection]

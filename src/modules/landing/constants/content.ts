@@ -158,8 +158,8 @@ export const landingFooterColumns: FooterLinkColumn[] = [
     id: 'legal',
     title: 'Legal',
     links: [
-      { label: 'Privacy Policy', href: '/privacy-policy', openInNewTab: true },
-      { label: 'T&C', href: '/terms-and-conditions', openInNewTab: true }
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'T&C', href: '/terms-and-conditions' }
     ]
   }
 ];

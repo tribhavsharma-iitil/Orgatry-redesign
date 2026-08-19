@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import darkLogo from '@/assets/orgatry_dark_logo.png';
 import { fadeInUp, staggerContainer } from '@/modules/landing/animations/landingMotion';
 import {
@@ -81,8 +81,20 @@ function FooterLinkColumns() {
           </p>
           <ul className="m-0 flex list-none flex-col gap-3 p-0">
             {column.links.map((link) => {
-              const isHash =
-                link.href.startsWith('#') || link.href.startsWith('/#');
+              const isHash = link.href.startsWith('#') || link.href.startsWith('/#');
+              const isInternalRoute = link.href.startsWith('/') && !isHash;
+              const linkClassName =
+                'font-normal text-[rgba(4,5,5,0.8)] transition-colors [font-family:Jost,sans-serif] hover:text-[#000d00] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/40';
+
+              if (isInternalRoute) {
+                return (
+                  <li key={`${column.id}-${link.label}`}>
+                    <Link to={link.href} className={linkClassName} style={{ fontSize: LINK_SIZE }}>
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              }
 
               return (
                 <li key={`${column.id}-${link.label}`}>
@@ -97,7 +109,7 @@ function FooterLinkColumns() {
                         handleNavClick(link.href);
                       }
                     }}
-                    className="font-normal text-[rgba(4,5,5,0.8)] transition-colors [font-family:Jost,sans-serif] hover:text-[#000d00] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/40"
+                    className={linkClassName}
                     style={{ fontSize: LINK_SIZE }}
                   >
                     {link.label}
@@ -132,13 +144,13 @@ function NewsletterForm() {
           style={{ fontSize: EMAIL_INPUT_TEXT_SIZE }}
         />
       </div>
-      <button
+      <Link to="/contact"
         type="submit"
         style={ctaButtonStyle}
         className="h-auto shrink-0 rounded-[12px] bg-[#15803d] uppercase text-white shadow-none [font-family:Jost,sans-serif] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/50 focus-visible:ring-offset-2"
       >
         {landingFooter.subscribeButton}
-      </button>
+      </Link>
     </form>
   );
 }

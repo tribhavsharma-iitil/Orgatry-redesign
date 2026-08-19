@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import solutionsPhoneMockup from '@/modules/landing/assets/images/solutions-phone-mockup.png';
 import solutionsPhoneMockup from '@/modules/landing/assets/images/solutions_phone_mockup.png';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { CTA_BUTTON_CLASSNAME, ctaButtonStyle } from '@/modules/landing/constants/ctaButton';
-import { useSmoothScroll } from '@/modules/landing/hooks/useSmoothScroll';
 import { LandingButton } from '@/modules/landing/shared/LandingButton';
 import { fluid } from '@/modules/landing/utils/scale';
 
@@ -75,11 +75,11 @@ function SolutionListItem({ title, description }: { title: string; description: 
  * five workflow items (not a card grid).
  */
 export function SolutionsSection() {
-  const { scrollToSection } = useSmoothScroll();
+  const navigate = useNavigate();
 
   const goContact = useCallback(() => {
-    scrollToSection('contact');
-  }, [scrollToSection]);
+    navigate('/contact');
+  }, [navigate]);
 
   return (
     <motion.section

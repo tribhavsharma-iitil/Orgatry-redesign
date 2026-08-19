@@ -5,7 +5,6 @@ import '@/modules/landing/styles/landing-fonts.css';
 import '@/modules/landing/styles/landing-shell.css';
 import landingBg from '@/modules/landing/assets/images/landing_bg.png';
 import { AboutSection } from '@/modules/landing/components/AboutSection';
-import { ContactSection } from '@/modules/landing/components/ContactSection';
 import { FaqSection } from '@/modules/landing/components/FaqSection';
 import { HeroSection } from '@/modules/landing/components/HeroSection';
 import { LandingFooter } from '@/modules/landing/components/LandingFooter';
@@ -15,6 +14,7 @@ import { TestimonialsSection } from '@/modules/landing/components/TestimonialsSe
 import { WhyChooseUsSection } from '@/modules/landing/components/WhyChooseUsSection';
 import { useLandingDocumentMeta } from '@/modules/landing/hooks/useLandingDocumentMeta';
 import { scrollToSectionId } from '@/modules/landing/hooks/useSmoothScroll';
+import { CtaBanner } from './shared/CtaBanner';
 
 /** Scroll to `/#section` after intro so anchors from legal pages land correctly. */
 function LandingHashScroller() {
@@ -63,7 +63,7 @@ export function LandingPage() {
         <WhyChooseUsSection />
         <FaqSection />
         <TestimonialsSection />
-        <ContactSection />
+        <CtaBanner />
         <LandingFooter />
       </main>
     </IntroProvider>
