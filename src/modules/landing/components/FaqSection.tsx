@@ -1,12 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useId } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fadeIn, fadeInUp, faqAccordion, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingFaqs } from '@/modules/landing/constants/content';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { CTA_BUTTON_CLASSNAME, ctaButtonStyle } from '@/modules/landing/constants/ctaButton';
 import { useFaqAccordion } from '@/modules/landing/hooks/useFaqAccordion';
-import { useSmoothScroll } from '@/modules/landing/hooks/useSmoothScroll';
 import { LandingButton } from '@/modules/landing/shared/LandingButton';
 import { fluid } from '@/modules/landing/utils/scale';
 
@@ -84,7 +84,7 @@ function FaqItem({ id, question, answer, open, onToggle }: FaqItemProps) {
 export function FaqSection() {
   const listId = useId();
   const { isOpen, toggle } = useFaqAccordion(landingFaqs[0]?.id ?? null);
-  const { scrollToSection } = useSmoothScroll();
+  const navigate = useNavigate();
 
   return (
     <motion.section
@@ -105,7 +105,7 @@ export function FaqSection() {
         >
           <h2
             id="faq-heading"
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="lg:max-w-[25rem] m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             General questions asked by customers
@@ -120,7 +120,7 @@ export function FaqSection() {
             </p>
             <LandingButton
               variant="primary"
-              onClick={() => scrollToSection('contact')}
+              onClick={() => navigate('/contact')}
               style={ctaButtonStyle}
               className={CTA_BUTTON_CLASSNAME}
               aria-label="Get in touch"

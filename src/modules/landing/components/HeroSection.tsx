@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import heroVisual from '@/modules/landing/assets/images/hero-visual.png';
 import { floatingDashboard, heroFadeIn, heroItem, heroStagger } from '@/modules/landing/animations/landingMotion';
 import { introConfig } from '@/components/intro';
 import { useIntro } from '@/components/intro/useIntro';
-import { useSmoothScroll } from '@/modules/landing/hooks/useSmoothScroll';
 import { LandingButton } from '@/modules/landing/shared/LandingButton';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { CTA_BUTTON_CLASSNAME, ctaButtonStyle } from '@/modules/landing/constants/ctaButton';
@@ -112,12 +112,12 @@ function HeroCopy({
  * the floating metric cards and scroll accent, so it renders as one image.
  */
 export function HeroSection() {
-  const { scrollToSection } = useSmoothScroll();
+  const navigate = useNavigate();
   const { isContentReady } = useIntro();
 
   const goContact = useCallback(() => {
-    scrollToSection('contact');
-  }, [scrollToSection]);
+    navigate('/contact');
+  }, [navigate]);
 
   return (
     <motion.section

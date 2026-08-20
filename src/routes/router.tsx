@@ -22,6 +22,26 @@ const TermsAndConditionsPage = lazy(() =>
     default: module.TermsAndConditionsPage,
   })),
 );
+const SolutionsPage = lazy(() =>
+  import("@/modules/landing/pages/SolutionsPage").then((module) => ({
+    default: module.SolutionsPage,
+  })),
+);
+const FeaturesPage = lazy(() =>
+  import("@/modules/landing/pages/FeaturesPage").then((module) => ({
+    default: module.FeaturesPage,
+  })),
+);
+const AboutUsPage = lazy(() =>
+  import("@/modules/landing/pages/AboutUsPage").then((module) => ({
+    default: module.AboutUsPage,
+  })),
+);
+const ContactPage = lazy(() =>
+  import("@/modules/landing/pages/ContactPage").then((module) => ({
+    default: module.ContactPage,
+  })),
+);
 const AppShell = lazy(() =>
   import("@/layouts/AppShell").then((module) => ({ default: module.AppShell })),
 );
@@ -178,6 +198,10 @@ export const router = createBrowserRouter([
     path: "/terms-and-conditions",
     element: landingElement(<TermsAndConditionsPage />),
   },
+  { path: "/solutions", element: landingElement(<SolutionsPage />) },
+  { path: "/features", element: landingElement(<FeaturesPage />) },
+  { path: "/about-us", element: landingElement(<AboutUsPage />) },
+  { path: "/contact", element: landingElement(<ContactPage />) },
   { path: "/login", element: <LoginPage /> },
   { path: "/onboarding/:token", element: lazyElement(<PreOnboardingPortalPage />) },
   { path: "/forgot-password", element: lazyElement(<ForgotPasswordPage />) },

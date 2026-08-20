@@ -138,28 +138,28 @@ export const landingFooterColumns: FooterLinkColumn[] = [
     id: 'quick-links',
     title: 'Quick Links',
     links: [
-      { label: 'Home', href: '/#home' },
-      { label: 'About Us', href: '/#about' },
-      { label: 'Service', href: '/#solutions' },
-      { label: 'Contact', href: '/#contact' }
+      { label: 'Home', href: '/' },
+      { label: 'About Us', href: '/about-us' },
+      { label: 'Service', href: '/solutions' },
+      { label: 'Contact', href: '/contact' }
     ]
   },
   {
     id: 'products',
     title: 'Products',
     links: [
-      { label: 'Ai Assistant', href: '#' },
-      { label: 'Mobile App', href: '#' },
-      { label: 'Account', href: '#' },
-      { label: 'Market', href: '#' }
+      { label: 'Ai Assistant', href: '/features' },
+      { label: 'Mobile App', href: '/features' },
+      { label: 'Account', href: '/features' },
+      { label: 'Market', href: '/features' }
     ]
   },
   {
     id: 'legal',
     title: 'Legal',
     links: [
-      { label: 'Privacy Policy', href: '/privacy-policy', openInNewTab: true },
-      { label: 'T&C', href: '/terms-and-conditions', openInNewTab: true }
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'T&C', href: '/terms-and-conditions' }
     ]
   }
 ];

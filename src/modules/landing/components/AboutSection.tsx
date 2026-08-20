@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
-import { useSmoothScroll } from '@/modules/landing/hooks/useSmoothScroll';
 import { fluid } from '@/modules/landing/utils/scale';
 
 /** Figma `273:2364` — heading 48 / body 24, toned down + fluid. */
@@ -123,14 +123,14 @@ function AboutCardPanel({ card, onArrowClick }: { card: AboutCard; onArrowClick:
  * three theme pills, a description, and an arrow CTA.
  */
 export function AboutSection() {
-  const { scrollToSection } = useSmoothScroll();
-  const goContact = () => scrollToSection('contact');
+  const navigate = useNavigate();
+  const goContact = () => navigate('/contact');
 
   return (
     <motion.section
       id="about"
       aria-label="About Us"
-      className="relative scroll-mt-4 overflow-x-hidden bg-[#f3f3f5] md:py-20 py-10"
+      className="relative scroll-mt-4 overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"

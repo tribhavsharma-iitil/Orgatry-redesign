@@ -33,6 +33,15 @@ export function useLandingDocumentMeta(options?: LandingDocumentMetaOptions) {
   const description = options?.description ?? LANDING_DESCRIPTION;
   const ogTitle = options?.ogTitle ?? options?.title ?? LANDING_OG_TITLE;
 
+  // Client-side route changes don't reset scroll like a hard navigation would —
+  // land at the top of each new page. Runs once per mount, not on title changes,
+  // so it never fights the home page's own hash-anchor scrolling.
+  useEffect(() => {
+    // `behavior: 'instant'` overrides the global `scroll-behavior: smooth` —
+    // a page transition should snap to the top, not visibly scroll there.
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
   useEffect(() => {
     const previousTitle = document.title;
     const previousTheme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.content;

@@ -1,86 +1,82 @@
 import { motion } from 'framer-motion';
-import { Clock, LayoutGrid, RefreshCw, Settings, ShieldCheck, Users } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import cleanInterfaceIcon from '@/modules/landing/assets/icons/employee-management.svg';
+import enterpriseSecurityIcon from '@/modules/landing/assets/icons/employee-compliance.svg';
+import seamlessIntegrationsIcon from '@/modules/landing/assets/icons/performance-management.svg';
+import mobileFriendlyIcon from '@/modules/landing/assets/icons/recruitment-onboarding.svg';
+import realTimeUpdatesIcon from '@/modules/landing/assets/icons/leave-attendance.svg';
+import dedicatedSupportIcon from '@/modules/landing/assets/icons/payroll-workforce.svg';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { fluid } from '@/modules/landing/utils/scale';
 
-/** Figma `273:2999` — heading 48 / body 24, toned down + fluid. */
+/** Figma `2133:6531`-style icon grid — "Designed For HR. Loved By Employees.". */
 const HEADING_SIZE = fluid(24, 36);
 const BODY_SIZE = fluid(15, 18);
 const CARD_TITLE_SIZE = fluid(17, 20);
 const CARD_BODY_SIZE = fluid(14, 15.5);
 const ICON_TILE_SIZE = fluid(48, 60);
 
-type WhyCard = {
+type DesignedForCard = {
   id: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: string;
   tileBg: string;
   tileBorder: string;
-  iconColor: string;
 };
 
-const WHY_CARDS: readonly WhyCard[] = [
+const DESIGNED_FOR_CARDS: readonly DesignedForCard[] = [
   {
-    id: 'automation',
-    title: 'Smart HR Automation',
-    description: 'Automate repetitive tasks with HR automation software and save valuable time.',
-    icon: RefreshCw,
+    id: 'clean-interface',
+    title: 'Clean, Intuitive Interface',
+    description: "A dashboard that's easy to navigate from day one, no lengthy onboarding or training needed.",
+    icon: cleanInterfaceIcon,
     tileBg: '#f2faff',
-    tileBorder: '#d8f1ff',
-    iconColor: '#188f44'
+    tileBorder: '#d8f1ff'
   },
   {
-    id: 'experience',
-    title: 'Employee-Centric Experience',
-    description: 'A seamless, intuitive experience for HR teams and employees alike.',
-    icon: Users,
+    id: 'enterprise-security',
+    title: 'Enterprise-Grade Security',
+    description: 'Role-based permissions and data protection built in so your workforce data stays safe.',
+    icon: enterpriseSecurityIcon,
     tileBg: '#fff2f2',
-    tileBorder: '#ffd8d8',
-    iconColor: '#e0575b'
+    tileBorder: '#ffd8d8'
   },
   {
-    id: 'secure',
-    title: 'Secure & Scalable',
-    description: 'A cloud-based compliance management software that grows with your business.',
-    icon: ShieldCheck,
-    tileBg: '#f2fff2',
-    tileBorder: '#c6f5bc',
-    iconColor: '#188f44'
-  },
-  {
-    id: 'hrms',
-    title: 'One Unified Platform',
-    description: 'Manage recruitment, onboarding, attendance, leave, and performance without switching tools.',
-    icon: LayoutGrid,
-    tileBg: '#f8f3ff',
-    tileBorder: '#e7d8ff',
-    iconColor: '#8b5cf6'
-  },
-  {
-    id: 'insights',
-    title: 'Real-Time Insights',
-    description: 'Confident workplace decisions with powerful analytics and customizable reports.',
-    icon: Clock,
+    id: 'seamless-integrations',
+    title: 'Seamless Integrations',
+    description: 'Connect with payroll, accounting, and communication tools your organization already uses.',
+    icon: seamlessIntegrationsIcon,
     tileBg: '#fff2fb',
-    tileBorder: '#ffd8ef',
-    iconColor: '#d63d94'
+    tileBorder: '#ffd8ef'
   },
   {
-    id: 'support',
+    id: 'mobile-friendly',
+    title: 'Mobile Friendly',
+    description: 'Employees can request leave, check schedules, and update information from any device.',
+    icon: mobileFriendlyIcon,
+    tileBg: '#f8f3ff',
+    tileBorder: '#e7d8ff'
+  },
+  {
+    id: 'real-time-updates',
+    title: 'Real-Time Updates',
+    description: 'Changes, approvals, and alerts propagate instantly so your team always has current information.',
+    icon: realTimeUpdatesIcon,
+    tileBg: '#f2fff2',
+    tileBorder: '#c6f5bc'
+  },
+  {
+    id: 'dedicated-support',
     title: 'Dedicated Support',
-    description: 'Get expert help from day one, anytime, anywhere.',
-    icon: Settings,
+    description: 'Our team is available to help you set up, troubleshoot, and get the most from the platform.',
+    icon: dedicatedSupportIcon,
     tileBg: '#fff6ee',
-    tileBorder: '#ffecd8',
-    iconColor: '#e08a2f'
+    tileBorder: '#ffecd8'
   }
 ] as const;
 
-function WhyCardPanel({ card }: { card: WhyCard }) {
-  const Icon = card.icon;
+function DesignedForCardPanel({ card }: { card: DesignedForCard }) {
   return (
     <motion.div
       variants={fadeInUp}
@@ -91,7 +87,7 @@ function WhyCardPanel({ card }: { card: WhyCard }) {
         className="flex shrink-0 items-center justify-center rounded-[10px] border"
         style={{ width: ICON_TILE_SIZE, height: ICON_TILE_SIZE, backgroundColor: card.tileBg, borderColor: card.tileBorder }}
       >
-        <Icon className="size-[45%]" style={{ color: card.iconColor }} aria-hidden strokeWidth={1.75} />
+        <img src={card.icon} alt="" className="size-[45%]" aria-hidden />
       </div>
       <div className="flex w-full flex-col items-start gap-2.5">
         <h3
@@ -111,16 +107,11 @@ function WhyCardPanel({ card }: { card: WhyCard }) {
   );
 }
 
-/**
- * Why Choose Us — Figma `273:2999` (The Orgatry Advantage).
- * Heading + body, then a 3x2 grid of icon-tile cards (no badge in this design).
- */
-export function WhyChooseUsSection() {
+export function FeaturesDesignedFor() {
   return (
     <motion.section
-      id="why-us"
-      aria-labelledby="why-us-heading"
-      className="relative scroll-mt-4 overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
+      aria-labelledby="features-designed-for-heading"
+      className="relative overflow-x-hidden bg-[#f3f3f5] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -132,18 +123,20 @@ export function WhyChooseUsSection() {
       >
         <motion.header className="flex w-full flex-col items-start gap-4" variants={fadeInUp}>
           <h2
-            id="why-us-heading"
+            id="features-designed-for-heading"
             className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
-            The Orgatry Advantage
+            Designed For HR.
+            <br />
+            Loved By Employees.
           </h2>
           <p
             className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
             style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
           >
-            We combine intelligent HR technology with hands-on expertise to simplify your workforce management and
-            drive your business growth.
+            A clean and intuitive experience makes everyday HR tasks easier for everyone, from HR managers and
+            administrators to employees and leadership.
           </p>
         </motion.header>
 
@@ -155,8 +148,8 @@ export function WhyChooseUsSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {WHY_CARDS.map((card) => (
-            <WhyCardPanel key={card.id} card={card} />
+          {DESIGNED_FOR_CARDS.map((card) => (
+            <DesignedForCardPanel key={card.id} card={card} />
           ))}
         </motion.div>
       </div>

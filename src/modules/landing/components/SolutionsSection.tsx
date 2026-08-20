@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import solutionsPhoneMockup from '@/modules/landing/assets/images/solutions-phone-mockup.png';
 import solutionsPhoneMockup from '@/modules/landing/assets/images/solutions_phone_mockup.png';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { CTA_BUTTON_CLASSNAME, ctaButtonStyle } from '@/modules/landing/constants/ctaButton';
-import { useSmoothScroll } from '@/modules/landing/hooks/useSmoothScroll';
 import { LandingButton } from '@/modules/landing/shared/LandingButton';
 import { fluid } from '@/modules/landing/utils/scale';
 
@@ -50,7 +50,7 @@ function SolutionListItem({ title, description }: { title: string; description: 
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start gap-2.5 rounded-[16px] border !border-[#D4D4D499] bg-white"
+      className="flex w-full flex-col items-start gap-0 rounded-[16px] border !border-[#D4D4D499] bg-white"
       style={{ padding: fluid(16, 20) }}
     >
       <h3
@@ -75,15 +75,14 @@ function SolutionListItem({ title, description }: { title: string; description: 
  * five workflow items (not a card grid).
  */
 export function SolutionsSection() {
-  const { scrollToSection } = useSmoothScroll();
+  const navigate = useNavigate();
 
   const goContact = useCallback(() => {
-    scrollToSection('contact');
-  }, [scrollToSection]);
+    navigate('/contact');
+  }, [navigate]);
 
   return (
     <motion.section
-      id="solutions"
       aria-labelledby="solutions-heading"
       className="relative scroll-mt-4 overflow-x-hidden bg-white md:py-20 py-10"
       variants={fadeIn}
@@ -128,7 +127,7 @@ export function SolutionsSection() {
 
         <div className="flex w-full flex-col items-center gap-10 lg:flex-row lg:items-stretch lg:gap-12">
           <motion.div
-            className="w-full max-w-[600px] shrink-0 w-full m-auto"
+            className="w-full max-w-[600px] shrink-0 w-full h-auto"
             variants={fadeInUp}
           >
             <img
@@ -136,12 +135,12 @@ export function SolutionsSection() {
               alt="Orgatry mobile app home screen showing quick access shortcuts, tasks, attendance, leave balance, and payslip"
               loading="lazy"
               decoding="async"
-              className="h-auto w-full max-w-full select-none"
+              className="h-full w-full max-w-full select-none"
             />
           </motion.div>
 
           <motion.div
-            className="flex w-full flex-col items-start gap-4 lg:flex-1"
+            className="flex w-full flex-col items-start gap-2 lg:flex-1"
             variants={featureCardStagger}
             initial="hidden"
             whileInView="visible"

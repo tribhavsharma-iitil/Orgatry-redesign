@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import darkLogo from '@/assets/orgatry_dark_logo.png';
 import { fadeInUp, staggerContainer } from '@/modules/landing/animations/landingMotion';
 import {
@@ -8,7 +8,6 @@ import {
   landingFooterColumns,
 } from '@/modules/landing/constants/content';
 import { ctaButtonStyle } from '@/modules/landing/constants/ctaButton';
-import { scrollToSectionId } from '@/modules/landing/hooks/useSmoothScroll';
 import { fluid } from '@/modules/landing/utils/scale';
 
 const FOOTER_OVERLAP = 0;
@@ -24,19 +23,6 @@ const COLUMN_TITLE_SIZE = fluid(15, 18);
 const LINK_SIZE = fluid(14, 15.5);
 const COPYRIGHT_SIZE = fluid(12.5, 13.5);
 const EMAIL_INPUT_TEXT_SIZE = fluid(14, 16);
-
-function handleNavClick(href: string) {
-  if (href.startsWith('/#')) {
-    const id = href.slice(2);
-    if (id) scrollToSectionId(id);
-    return;
-  }
-
-  if (href.startsWith('#')) {
-    const id = href.slice(1);
-    if (id) scrollToSectionId(id);
-  }
-}
 
 function NewsletterBlock() {
   return (
@@ -81,8 +67,33 @@ function FooterLinkColumns() {
           </p>
           <ul className="m-0 flex list-none flex-col gap-3 p-0">
             {column.links.map((link) => {
-              const isHash =
-                link.href.startsWith('#') || link.href.startsWith('/#');
+              const isInternalRoute = link.href.startsWith('/');
+              // Clicking a link to the page you're already on is a no-op navigation
+              // (React Router doesn't remount, so the destination's own scroll-to-top
+              // mount effect never fires) — scroll up manually in that case instead.
+              const isSameRoute = link.href === location.pathname || (link.href === '/' && isOnLanding);
+              const linkClassName =
+                'font-normal text-[rgba(4,5,5,0.8)] transition-colors [font-family:Jost,sans-serif] hover:text-[#000d00] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/40';
+
+              if (isInternalRoute) {
+                return (
+                  <li key={`${column.id}-${link.label}`}>
+                    <Link
+                      to={link.href}
+                      onClick={(event) => {
+                        if (isSameRoute) {
+                          event.preventDefault();
+                          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                        }
+                      }}
+                      className={linkClassName}
+                      style={{ fontSize: LINK_SIZE }}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              }
 
               return (
                 <li key={`${column.id}-${link.label}`}>
@@ -91,13 +102,7 @@ function FooterLinkColumns() {
                     {...(link.openInNewTab
                       ? { target: '_blank', rel: 'noopener noreferrer' }
                       : {})}
-                    onClick={(event) => {
-                      if (isHash && isOnLanding) {
-                        event.preventDefault();
-                        handleNavClick(link.href);
-                      }
-                    }}
-                    className="font-normal text-[rgba(4,5,5,0.8)] transition-colors [font-family:Jost,sans-serif] hover:text-[#000d00] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/40"
+                    className={linkClassName}
                     style={{ fontSize: LINK_SIZE }}
                   >
                     {link.label}
@@ -119,7 +124,7 @@ function NewsletterForm() {
       onSubmit={(event) => event.preventDefault()}
     >
       <div
-        className="flex items-center gap-2.5 rounded-[10px] border bg-[#f3f3f5] !border-[#D4D4D499]"
+        className="flex items-center gap-2.5 rounded-[10px] border bg-[#F7F7F7CC] !border-[#D4D4D499]"
         style={{ paddingInline: fluid(16, 24), paddingBlock: fluid(10, 14), width: 'min(360px, 100%)' }}
       >
         <Mail className="size-5 shrink-0 text-[rgba(4,5,5,0.8)]" aria-hidden />
@@ -132,13 +137,13 @@ function NewsletterForm() {
           style={{ fontSize: EMAIL_INPUT_TEXT_SIZE }}
         />
       </div>
-      <button
+      <Link to="/contact"
         type="submit"
         style={ctaButtonStyle}
         className="h-auto shrink-0 rounded-[12px] bg-[#15803d] uppercase text-white shadow-none [font-family:Jost,sans-serif] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/50 focus-visible:ring-offset-2"
       >
         {landingFooter.subscribeButton}
-      </button>
+      </Link>
     </form>
   );
 }
