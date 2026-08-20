@@ -15,7 +15,7 @@ export function FeaturesPage() {
   });
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] [font-family:Inter,sans-serif]">
+    <main className="relative min-h-screen overflow-x-hidden text-[#171717] [font-family:Inter,sans-serif]">
       <LandingNavbar />
       <FeaturesPageHero />
       <FeaturesShowcaseRows />

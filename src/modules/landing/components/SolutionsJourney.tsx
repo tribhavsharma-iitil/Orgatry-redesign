@@ -72,7 +72,7 @@ export function SolutionsJourney() {
   return (
     <motion.section
       aria-labelledby="solutions-journey-heading"
-      className="relative overflow-x-hidden bg-[#f3f3f5] md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -85,7 +85,7 @@ export function SolutionsJourney() {
         <motion.header className="flex w-full flex-col items-start gap-4" variants={fadeInUp}>
           <h2
             id="solutions-journey-heading"
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="m-0 w-full text-[#000d00] lg:max-w-xl capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             Built For Every Stage Of The Employee Journey

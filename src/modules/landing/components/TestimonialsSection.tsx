@@ -76,7 +76,7 @@ export function TestimonialsSection() {
   return (
     <motion.section
       aria-labelledby="testimonials-heading"
-      className="relative overflow-x-hidden bg-[#f3f3f5] md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"

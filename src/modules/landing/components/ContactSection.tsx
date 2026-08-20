@@ -73,7 +73,7 @@ function ContactInfoList() {
           <li key={item.id} className="flex items-center" style={{ gap: fluid(16, 24) }}>
             <span
               className="inline-flex shrink-0 items-center justify-center rounded-[20px] border !border-[#D4D4D499] bg-white"
-              style={{ width: fluid(60,60), height: fluid(60,60) }}
+              style={{ width: fluid(60, 60), height: fluid(60, 60) }}
               aria-hidden
             >
               {Icon ? <Icon className="size-[45%] text-[#188f44]" strokeWidth={1.75} /> : null}
@@ -367,7 +367,7 @@ export function ContactSection() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative scroll-mt-28 bg-[#f3f3f5] lg:py-20 py-10"
+      className="relative scroll-mt-28 bg-[#F7F7F7CC] lg:py-20 py-10"
     >
       <motion.div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start lg:flex-row lg:justify-between"

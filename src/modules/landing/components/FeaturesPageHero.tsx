@@ -14,7 +14,7 @@ export function FeaturesPageHero() {
   const navigate = useNavigate();
 
   return (
-    <section aria-labelledby="features-hero-heading" className="relative overflow-x-hidden bg-white md:py-20 py-10 !pt-40">
+    <section aria-labelledby="features-hero-heading" className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !pt-40 !bg-[#F9F9F9]">
       <div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start"
         style={{
@@ -36,9 +36,13 @@ export function FeaturesPageHero() {
               className="m-0 w-full max-w-[760px] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
               style={{ fontSize: HEADING_SIZE, lineHeight: 1.26, letterSpacing: '-0.02em', fontWeight: 600 }}
             >
-              Powerful HR Features.
+              <span className="font-semibold">
+                Powerful HR Features.
+              </span>
               <br />
-              Simpler Everyday Work.
+              <span className="font-normal">
+                Simpler Everyday Work.
+              </span>
             </motion.h1>
             <motion.p
               variants={heroItem}

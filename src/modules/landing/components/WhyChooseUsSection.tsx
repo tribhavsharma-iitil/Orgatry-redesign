@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Clock, LayoutGrid, RefreshCw, Settings2, ShieldCheck, Users } from 'lucide-react';
+import { Clock, LayoutGrid, RefreshCw, Settings, ShieldCheck, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
@@ -72,7 +72,7 @@ const WHY_CARDS: readonly WhyCard[] = [
     id: 'support',
     title: 'Dedicated Support',
     description: 'Get expert help from day one, anytime, anywhere.',
-    icon: Settings2,
+    icon: Settings,
     tileBg: '#fff6ee',
     tileBorder: '#ffecd8',
     iconColor: '#e08a2f'
@@ -120,7 +120,7 @@ export function WhyChooseUsSection() {
     <motion.section
       id="why-us"
       aria-labelledby="why-us-heading"
-      className="relative scroll-mt-4 overflow-x-hidden bg-[#f3f3f5] md:py-20 py-10"
+      className="relative scroll-mt-4 overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"

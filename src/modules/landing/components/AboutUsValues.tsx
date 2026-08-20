@@ -32,7 +32,7 @@ function ValueCardPanel({ card }: { card: ValueCard }) {
     <motion.div
       variants={fadeInUp}
       className="flex w-full flex-col items-start gap-5 rounded-[16px] border !border-[#D4D4D499] bg-white"
-      style={{ padding: fluid(20, 32) }}
+      style={{ padding: fluid(8, 16) }}
     >
       <div
         className="flex shrink-0 items-center justify-center rounded-[10px] border !border-[#d8f1ff] !bg-[#f2faff]"
@@ -42,13 +42,13 @@ function ValueCardPanel({ card }: { card: ValueCard }) {
       </div>
       <div className="flex w-full flex-col items-start gap-2.5">
         <h3
-          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] whitespace-nowrap"
           style={{ fontSize: CARD_TITLE_SIZE, letterSpacing: '-0.03em' }}
         >
           {card.title}
         </h3>
         <p
-          className="m-0 font-normal text-[#878c91] [font-family:Jost,sans-serif]"
+          className="m-0 font-normal text-[#878c91] [font-family:Jost,sans-serif] mb-4"
           style={{ fontSize: CARD_BODY_SIZE, lineHeight: 1.5 }}
         >
           {card.description}
@@ -84,7 +84,7 @@ export function AboutUsValues() {
 
         <motion.div
           className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5"
-          style={{ gap: fluid(16, 24) }}
+          style={{ gap: fluid(12, 20) }}
           variants={featureCardStagger}
           initial="hidden"
           whileInView="visible"

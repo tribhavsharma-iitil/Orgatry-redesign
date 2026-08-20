@@ -1,13 +1,10 @@
 import { motion } from 'framer-motion';
-import {
-  CalendarClock,
-  ClipboardList,
-  ShieldCheck,
-  UserPlus,
-  Users,
-  Wallet
-} from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import employeeManagementIcon from '@/modules/landing/assets/icons/employee-management.svg';
+import employeeComplianceIcon from '@/modules/landing/assets/icons/employee-compliance.svg';
+import leaveAttendanceIcon from '@/modules/landing/assets/icons/leave-attendance.svg';
+import recruitmentOnboardingIcon from '@/modules/landing/assets/icons/recruitment-onboarding.svg';
+import performanceManagementIcon from '@/modules/landing/assets/icons/performance-management.svg';
+import payrollWorkforceIcon from '@/modules/landing/assets/icons/payroll-workforce.svg';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { fluid } from '@/modules/landing/utils/scale';
@@ -23,10 +20,9 @@ type SolutionCard = {
   id: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: string;
   tileBg: string;
   tileBorder: string;
-  iconColor: string;
 };
 
 const SOLUTION_CARDS: readonly SolutionCard[] = [
@@ -34,60 +30,53 @@ const SOLUTION_CARDS: readonly SolutionCard[] = [
     id: 'employee-management',
     title: 'Employee Management',
     description: 'Centralize employee information, documents, roles, and workforce records in one secure platform.',
-    icon: Users,
+    icon: employeeManagementIcon,
     tileBg: '#f2faff',
-    tileBorder: '#d8f1ff',
-    iconColor: '#188f44'
+    tileBorder: '#d8f1ff'
   },
   {
     id: 'employee-compliance',
     title: 'Employee Compliance',
     description: 'Stay organized with compliance tracking, employee documentation, policies, and important HR requirements.',
-    icon: ShieldCheck,
+    icon: employeeComplianceIcon,
     tileBg: '#fff2f2',
-    tileBorder: '#ffd8d8',
-    iconColor: '#e0575b'
+    tileBorder: '#ffd8d8'
   },
   {
     id: 'leave-attendance',
     title: 'Leave & Attendance',
     description: 'Manage leave requests, attendance, holidays, and workforce availability without spreadsheets or manual follow-ups.',
-    icon: CalendarClock,
+    icon: leaveAttendanceIcon,
     tileBg: '#f2fff2',
-    tileBorder: '#c6f5bc',
-    iconColor: '#188f44'
+    tileBorder: '#c6f5bc'
   },
   {
     id: 'recruitment-onboarding',
     title: 'Recruitment & Onboarding',
     description: 'Move candidates from application to onboarding with structured workflows that keep your hiring process moving.',
-    icon: UserPlus,
+    icon: recruitmentOnboardingIcon,
     tileBg: '#f8f3ff',
-    tileBorder: '#e7d8ff',
-    iconColor: '#8b5cf6'
+    tileBorder: '#e7d8ff'
   },
   {
     id: 'performance-management',
     title: 'Performance Management',
     description: 'Set goals, track employee progress, conduct reviews, and build a culture of continuous improvement.',
-    icon: ClipboardList,
+    icon: performanceManagementIcon,
     tileBg: '#fff2fb',
-    tileBorder: '#ffd8ef',
-    iconColor: '#d63d94'
+    tileBorder: '#ffd8ef'
   },
   {
     id: 'payroll-workforce-data',
     title: 'Payroll & Workforce Data',
     description: 'Keep important workforce information organized and accessible while reducing repetitive administrative work.',
-    icon: Wallet,
+    icon: payrollWorkforceIcon,
     tileBg: '#fff6ee',
-    tileBorder: '#ffecd8',
-    iconColor: '#e08a2f'
+    tileBorder: '#ffecd8'
   }
 ] as const;
 
 function SolutionCardPanel({ card }: { card: SolutionCard }) {
-  const Icon = card.icon;
   return (
     <motion.div
       variants={fadeInUp}
@@ -98,7 +87,7 @@ function SolutionCardPanel({ card }: { card: SolutionCard }) {
         className="flex shrink-0 items-center justify-center rounded-[10px] border"
         style={{ width: ICON_TILE_SIZE, height: ICON_TILE_SIZE, backgroundColor: card.tileBg, borderColor: card.tileBorder }}
       >
-        <Icon className="size-[45%]" style={{ color: card.iconColor }} aria-hidden strokeWidth={1.75} />
+        <img src={card.icon} alt="" className="size-[45%]" aria-hidden />
       </div>
       <div className="flex w-full flex-col items-start gap-2.5">
         <h3
@@ -122,7 +111,7 @@ export function SolutionsFeatureGrid() {
   return (
     <motion.section
       aria-labelledby="solutions-grid-heading"
-      className="relative overflow-x-hidden bg-white md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"

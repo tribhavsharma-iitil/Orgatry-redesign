@@ -13,7 +13,7 @@ export function ContactPage() {
   });
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#f3f3f5] text-[#171717] [font-family:Inter,sans-serif]">
+    <main className="relative min-h-screen overflow-x-hidden bg-[#F7F7F7CC] text-[#171717] [font-family:Inter,sans-serif]">
       <LandingNavbar />
       <div style={{ paddingTop: landingTokens.navbarTop + landingTokens.navbarHeight }} />
       <ContactSection />

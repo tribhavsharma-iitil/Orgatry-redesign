@@ -130,7 +130,7 @@ export function AboutSection() {
     <motion.section
       id="about"
       aria-label="About Us"
-      className="relative scroll-mt-4 overflow-x-hidden bg-[#f3f3f5] md:py-20 py-10"
+      className="relative scroll-mt-4 overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"

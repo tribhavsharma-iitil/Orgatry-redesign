@@ -14,7 +14,7 @@ export function SolutionsPageHero() {
   const navigate = useNavigate();
 
   return (
-    <section aria-labelledby="solutions-hero-heading" className="relative overflow-x-hidden bg-white md:py-20 py-10 !pt-40">
+    <section aria-labelledby="solutions-hero-heading" className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !pt-40">
       <div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start"
         style={{

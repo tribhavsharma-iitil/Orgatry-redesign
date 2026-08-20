@@ -9,10 +9,18 @@ import { cn } from '@/lib/utils';
 const ROW_TITLE_SIZE = fluid(24, 34);
 const ROW_BODY_SIZE = fluid(15, 18);
 const TAG_TEXT_SIZE = fluid(12.5, 14);
+const BADGE_TEXT_SIZE = fluid(12, 14);
+const HEADING_SIZE = fluid(24, 36);
+const BODY_SIZE = fluid(15, 18);
+const ROW_GAP = fluid(32, 40);
+const ROW_PADDING = fluid(20, 48);
 
 const FEATURE_ROWS = [
   {
     id: 'employee-management',
+    badge: 'Employee Management',
+    badgeBg: '#f2faff',
+    badgeBorder: '#d8f1ff',
     title: 'Keep Your Workforce Organized',
     description:
       'Manage employee profiles, documents, roles, departments, and essential workforce information from a single dashboard.',
@@ -20,6 +28,9 @@ const FEATURE_ROWS = [
   },
   {
     id: 'leave-attendance-1',
+    badge: 'Leave & Attendance',
+    badgeBg: '#fff2f2',
+    badgeBorder: '#ffd8d8',
     title: 'Make Attendance And Leave Management Effortless',
     description:
       'Give employees a simple way to manage leave while HR teams maintain complete visibility over attendance and availability.',
@@ -27,12 +38,18 @@ const FEATURE_ROWS = [
   },
   {
     id: 'recruitment-onboarding',
+    badge: 'Recruitment & Onboarding',
+    badgeBg: '#fff2fb',
+    badgeBorder: '#ffd8ef',
     title: 'Hire Faster. Onboard Smarter.',
     description: 'Create a structured recruitment experience and make onboarding simple for both HR teams and new employees.',
     tags: ['Candidate Management', 'Job Openings', 'Interview Tracking', 'Hiring Pipeline', 'Offer Management', 'Digital Onboarding', 'Onboarding Checklists']
   },
   {
     id: 'leave-attendance-2',
+    badge: 'Leave & Attendance',
+    badgeBg: '#fff2f2',
+    badgeBorder: '#ffd8d8',
     title: 'Make Attendance And Leave Management Effortless',
     description:
       'Give employees a simple way to manage leave while HR teams maintain complete visibility over attendance and availability.',
@@ -40,6 +57,9 @@ const FEATURE_ROWS = [
   },
   {
     id: 'performance-management',
+    badge: 'Performance Management',
+    badgeBg: '#f2fff2',
+    badgeBorder: '#c6f5bc',
     title: 'Turn Employee Goals Into Business Growth',
     description: 'Create clear goals, track progress, and make performance reviews more meaningful.',
     tags: ['Goal Setting', 'Performance Reviews', 'Employee Feedback', 'Performance Tracking', 'Review Cycles', 'Development Plans']
@@ -135,15 +155,32 @@ function FeatureTagList({ tags }: { tags: readonly string[] }) {
   );
 }
 
+function StepBadge({ label, bg, border }: { label: string; bg: string; border: string }) {
+  return (
+    <span
+      className="inline-flex h-[34px] items-center justify-center whitespace-nowrap rounded-[8px] border font-semibold text-[#000d00] uppercase [font-family:'Bricolage_Grotesque',sans-serif]"
+      style={{ backgroundColor: bg, borderColor: border, fontSize: BADGE_TEXT_SIZE, paddingInline: fluid(14, 18) }}
+    >
+      {label}
+    </span>
+  );
+}
+
 function FeatureRow({ row, reversed }: { row: (typeof FEATURE_ROWS)[number]; reversed: boolean }) {
   return (
     <motion.div
       variants={fadeInUp}
-      className={cn('flex w-full flex-col items-center gap-10 lg:items-stretch lg:gap-16', reversed ? 'lg:flex-row-reverse' : 'lg:flex-row')}
+      className={cn(
+        'flex w-full flex-col items-center rounded-[32px] border bg-[#fdfdfd] lg:items-stretch',
+        'shadow-[0px_10px_15px_rgba(0,0,0,0.02)]',
+        reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'
+      )}
+      style={{ borderColor: row.badgeBorder, padding: ROW_PADDING, gap: ROW_GAP }}
     >
-      <div className="flex w-full flex-col items-start justify-center gap-5 lg:max-w-[560px]">
+      <div className="flex w-full flex-col items-start justify-center gap-5 lg:max-w-[580px]">
+        <StepBadge label={row.badge} bg={row.badgeBg} border={row.badgeBorder} />
         <h3
-          className="m-0 w-full text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 w-full text-[#000d00] lg:max-w-[28rem] [font-family:'Bricolage_Grotesque',sans-serif]"
           style={{ fontSize: ROW_TITLE_SIZE, fontWeight: 500, letterSpacing: '-0.02em' }}
         >
           {row.title}
@@ -168,7 +205,7 @@ export function FeaturesShowcaseRows() {
   return (
     <motion.section
       aria-label="HR feature showcase"
-      className="relative overflow-x-hidden bg-white md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !bg-[#F9F9F9]"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -178,6 +215,20 @@ export function FeaturesShowcaseRows() {
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start"
         style={{ paddingInline: `clamp(1.5rem, 6vw, ${landingTokens.gutter}px)`, gap: fluid(56, 96) }}
       >
+        <motion.div className="flex w-full flex-col items-start gap-4 text-left" variants={fadeInUp}>
+          <h2
+            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
+          >
+            Keep Your Workforce Organized
+          </h2>
+          <p
+            className="m-0 w-full max-w-[561px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+            style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
+          >
+            Manage employee profiles, documents, roles, departments, and essential workforce information from a single dashboard.
+          </p>
+        </motion.div>
         {FEATURE_ROWS.map((row, index) => (
           <FeatureRow key={row.id} row={row} reversed={index % 2 === 1} />
         ))}

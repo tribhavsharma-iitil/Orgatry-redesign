@@ -105,7 +105,7 @@ export function FaqSection() {
         >
           <h2
             id="faq-heading"
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="lg:max-w-[25rem] m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             General questions asked by customers

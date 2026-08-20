@@ -1,13 +1,10 @@
 import { motion } from 'framer-motion';
-import {
-  LayoutDashboard,
-  Plug,
-  RefreshCw,
-  ShieldCheck,
-  Smartphone,
-  Headset
-} from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import cleanInterfaceIcon from '@/modules/landing/assets/icons/employee-management.svg';
+import enterpriseSecurityIcon from '@/modules/landing/assets/icons/employee-compliance.svg';
+import seamlessIntegrationsIcon from '@/modules/landing/assets/icons/performance-management.svg';
+import mobileFriendlyIcon from '@/modules/landing/assets/icons/recruitment-onboarding.svg';
+import realTimeUpdatesIcon from '@/modules/landing/assets/icons/leave-attendance.svg';
+import dedicatedSupportIcon from '@/modules/landing/assets/icons/payroll-workforce.svg';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { fluid } from '@/modules/landing/utils/scale';
@@ -23,10 +20,9 @@ type DesignedForCard = {
   id: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: string;
   tileBg: string;
   tileBorder: string;
-  iconColor: string;
 };
 
 const DESIGNED_FOR_CARDS: readonly DesignedForCard[] = [
@@ -34,60 +30,53 @@ const DESIGNED_FOR_CARDS: readonly DesignedForCard[] = [
     id: 'clean-interface',
     title: 'Clean, Intuitive Interface',
     description: "A dashboard that's easy to navigate from day one, no lengthy onboarding or training needed.",
-    icon: LayoutDashboard,
+    icon: cleanInterfaceIcon,
     tileBg: '#f2faff',
-    tileBorder: '#d8f1ff',
-    iconColor: '#188f44'
+    tileBorder: '#d8f1ff'
   },
   {
     id: 'enterprise-security',
     title: 'Enterprise-Grade Security',
     description: 'Role-based permissions and data protection built in so your workforce data stays safe.',
-    icon: ShieldCheck,
+    icon: enterpriseSecurityIcon,
     tileBg: '#fff2f2',
-    tileBorder: '#ffd8d8',
-    iconColor: '#e0575b'
+    tileBorder: '#ffd8d8'
   },
   {
     id: 'seamless-integrations',
     title: 'Seamless Integrations',
     description: 'Connect with payroll, accounting, and communication tools your organization already uses.',
-    icon: Plug,
-    tileBg: '#f2fff2',
-    tileBorder: '#c6f5bc',
-    iconColor: '#188f44'
+    icon: seamlessIntegrationsIcon,
+    tileBg: '#fff2fb',
+    tileBorder: '#ffd8ef'
   },
   {
     id: 'mobile-friendly',
     title: 'Mobile Friendly',
     description: 'Employees can request leave, check schedules, and update information from any device.',
-    icon: Smartphone,
+    icon: mobileFriendlyIcon,
     tileBg: '#f8f3ff',
-    tileBorder: '#e7d8ff',
-    iconColor: '#8b5cf6'
+    tileBorder: '#e7d8ff'
   },
   {
     id: 'real-time-updates',
     title: 'Real-Time Updates',
     description: 'Changes, approvals, and alerts propagate instantly so your team always has current information.',
-    icon: RefreshCw,
-    tileBg: '#fff2fb',
-    tileBorder: '#ffd8ef',
-    iconColor: '#d63d94'
+    icon: realTimeUpdatesIcon,
+    tileBg: '#f2fff2',
+    tileBorder: '#c6f5bc'
   },
   {
     id: 'dedicated-support',
     title: 'Dedicated Support',
     description: 'Our team is available to help you set up, troubleshoot, and get the most from the platform.',
-    icon: Headset,
+    icon: dedicatedSupportIcon,
     tileBg: '#fff6ee',
-    tileBorder: '#ffecd8',
-    iconColor: '#e08a2f'
+    tileBorder: '#ffecd8'
   }
 ] as const;
 
 function DesignedForCardPanel({ card }: { card: DesignedForCard }) {
-  const Icon = card.icon;
   return (
     <motion.div
       variants={fadeInUp}
@@ -98,7 +87,7 @@ function DesignedForCardPanel({ card }: { card: DesignedForCard }) {
         className="flex shrink-0 items-center justify-center rounded-[10px] border"
         style={{ width: ICON_TILE_SIZE, height: ICON_TILE_SIZE, backgroundColor: card.tileBg, borderColor: card.tileBorder }}
       >
-        <Icon className="size-[45%]" style={{ color: card.iconColor }} aria-hidden strokeWidth={1.75} />
+        <img src={card.icon} alt="" className="size-[45%]" aria-hidden />
       </div>
       <div className="flex w-full flex-col items-start gap-2.5">
         <h3

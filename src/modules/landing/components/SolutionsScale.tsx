@@ -93,7 +93,7 @@ export function SolutionsScale() {
   return (
     <motion.section
       aria-labelledby="solutions-scale-heading"
-      className="relative overflow-x-hidden bg-white md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
