@@ -127,7 +127,7 @@ export function SolutionsSection() {
 
         <div className="flex w-full flex-col items-center gap-10 lg:flex-row lg:items-stretch lg:gap-12">
           <motion.div
-            className="w-full max-w-[600px] shrink-0 w-full h-full"
+            className="w-full max-w-[600px] shrink-0 w-full h-auto"
             variants={fadeInUp}
           >
             <img
