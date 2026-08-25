@@ -15,9 +15,6 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000
     },
-    define: {
-      'process.env.NEXT_PUBLIC_API_URL': JSON.stringify(env.NEXT_PUBLIC_API_URL)
-    },
     build: {
       target: 'es2022',
       sourcemap: true,
