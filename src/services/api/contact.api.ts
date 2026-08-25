@@ -16,7 +16,7 @@ export type ContactResponse = {
   };
 };
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = import.meta.env.VITE_CREDIPLE_API_URL as string | undefined;
 
 /**
  * Public marketing endpoint on a separate backend from the authenticated
@@ -27,7 +27,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const contactApi = {
   async submit(payload: ContactPayload): Promise<ContactResponse> {
     if (!apiUrl) {
-      throw new Error('NEXT_PUBLIC_API_URL is required');
+      throw new Error('VITE_CREDIPLE_API_URL is required');
     }
 
     const response = await axios.post<ContactResponse>(`${apiUrl}/contact`, payload, {
