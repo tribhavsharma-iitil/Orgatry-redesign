@@ -31,18 +31,18 @@ function ValueCardPanel({ card }: { card: ValueCard }) {
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start gap-5 rounded-[16px] border !border-[#D4D4D499] bg-white"
+      className="flex w-full flex-col items-start gap-5 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-[rgba(255,255,255,0.05)]"
       style={{ padding: fluid(8, 16) }}
     >
       <div
-        className="flex shrink-0 items-center justify-center rounded-[10px] border !border-[#d8f1ff] !bg-[#f2faff]"
+        className="flex shrink-0 items-center justify-center rounded-[10px] border !border-[#d8f1ff] !bg-[#f2faff] dark:!border-[rgba(24,143,68,0.15)] dark:!bg-[rgba(24,143,68,0.1)]"
         style={{ width: ICON_TILE_SIZE, height: ICON_TILE_SIZE }}
       >
         <Icon className="size-[45%] text-[#188f44]" aria-hidden strokeWidth={1.75} />
       </div>
       <div className="flex w-full flex-col items-start gap-2.5">
         <h3
-          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] whitespace-nowrap"
+          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] whitespace-nowrap dark:text-white"
           style={{ fontSize: CARD_TITLE_SIZE, letterSpacing: '-0.03em' }}
         >
           {card.title}
@@ -62,7 +62,7 @@ export function AboutUsValues() {
   return (
     <motion.section
       aria-labelledby="about-values-heading"
-      className="relative overflow-x-hidden bg-[#f9f9f9] md:py-20 py-10  md:pb-20 pb-10"
+      className="relative overflow-x-hidden bg-[#f9f9f9] dark:bg-transparent md:py-20 py-10  md:pb-20 pb-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -75,7 +75,7 @@ export function AboutUsValues() {
         <motion.header className="flex w-full flex-col items-start" variants={fadeInUp}>
           <h2
             id="about-values-heading"
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             The Values That Guide Everything We Build

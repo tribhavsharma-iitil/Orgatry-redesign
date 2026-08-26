@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
-import { Mail } from 'lucide-react';
+import { Fragment } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import darkLogo from '@/assets/orgatry_dark_logo.png';
 import { fadeInUp, staggerContainer } from '@/modules/landing/animations/landingMotion';
 import {
   landingFooter,
   landingFooterColumns,
+  landingFooterLegalLinks,
 } from '@/modules/landing/constants/content';
-import { ctaButtonStyle } from '@/modules/landing/constants/ctaButton';
 import { fluid } from '@/modules/landing/utils/scale';
 
 const FOOTER_OVERLAP = 0;
@@ -17,32 +16,33 @@ const CONTENT_WIDTH = 1240;
 const STANDALONE_PAD_TOP = 72;
 const BOTTOM_BAR_HEIGHT = 16;
 
-const TAGLINE_SIZE = fluid(14, 16);
-const HEADLINE_SIZE = fluid(20, 28);
-const COLUMN_TITLE_SIZE = fluid(15, 18);
+const BRAND_SIZE = fluid(24, 32);
+const TAGLINE_SIZE = fluid(15, 17);
+const DESCRIPTION_SIZE = fluid(13, 14.5);
 const LINK_SIZE = fluid(14, 15.5);
 const COPYRIGHT_SIZE = fluid(12.5, 13.5);
-const EMAIL_INPUT_TEXT_SIZE = fluid(14, 16);
+const LEGAL_LINK_SIZE = fluid(12.5, 13.5);
 
-function NewsletterBlock() {
+function FooterBrandBlock() {
   return (
-    <div className="flex w-full max-w-[420px] flex-col gap-4">
-      <img src={darkLogo} alt="Orgatry" className="h-10 w-[160px]" loading="lazy" />
+    <div className="flex w-full max-w-[360px] flex-col gap-2">
       <p
-        className="m-0 text-[#040505] [font-family:Jost,sans-serif]"
+        className="m-0 font-bold text-[#15803d] [font-family:'Bricolage_Grotesque',sans-serif]"
+        style={{ fontSize: BRAND_SIZE }}
+      >
+        {landingFooter.brand}
+      </p>
+      <p
+        className="m-0 font-bold text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
         style={{ fontSize: TAGLINE_SIZE }}
       >
         {landingFooter.tagline}
       </p>
       <p
-        className="m-0 font-bold text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
-        style={{ fontSize: HEADLINE_SIZE, lineHeight: 1.3 }}
+        className="m-0 text-[rgba(4,5,5,0.8)] dark:text-[#d1d5db] [font-family:Jost,sans-serif]"
+        style={{ fontSize: DESCRIPTION_SIZE }}
       >
-        {landingFooter.headline.map((line) => (
-          <span key={line} className="block">
-            {line}
-          </span>
-        ))}
+        {landingFooter.description}
       </p>
     </div>
   );
@@ -55,96 +55,84 @@ function FooterLinkColumns() {
   return (
     <nav
       aria-label="Footer"
-      className="flex w-full flex-wrap items-start justify-between gap-x-10 gap-y-8 lg:max-w-[589px] lg:flex-nowrap"
+      className="grid w-full items-start justify-start w-full max-w-[300px]"
+      style={{ gridTemplateColumns: 'auto 1px auto', columnGap: fluid(32, 64), rowGap: 32 }}
     >
-      {landingFooterColumns.map((column) => (
-        <div key={column.id} className="flex min-w-[88px] flex-col gap-4">
-          <p
-            className="m-0 font-medium text-black [font-family:Jost,sans-serif]"
-            style={{ fontSize: COLUMN_TITLE_SIZE }}
-          >
-            {column.title}
-          </p>
-          <ul className="m-0 flex list-none flex-col gap-3 p-0">
-            {column.links.map((link) => {
-              const isInternalRoute = link.href.startsWith('/');
-              // Clicking a link to the page you're already on is a no-op navigation
-              // (React Router doesn't remount, so the destination's own scroll-to-top
-              // mount effect never fires) — scroll up manually in that case instead.
-              const isSameRoute = link.href === location.pathname || (link.href === '/' && isOnLanding);
-              const linkClassName =
-                'font-normal text-[rgba(4,5,5,0.8)] transition-colors [font-family:Jost,sans-serif] hover:text-[#000d00] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/40';
+      {landingFooterColumns.map((column, index) => (
+        <Fragment key={column.id}>
+          {index > 0 && (
+            <div aria-hidden className="self-stretch border-l border-dashed border-[#0000001A] dark:border-white/10" />
+          )}
+          <div className="flex min-w-[88px] flex-col gap-4">
+            <span className="sr-only">{column.title}</span>
+            <ul className="m-0 flex list-none flex-col gap-3 p-0">
+              {column.links.map((link) => {
+                const isInternalRoute = link.href.startsWith('/');
+                // Clicking a link to the page you're already on is a no-op navigation
+                // (React Router doesn't remount, so the destination's own scroll-to-top
+                // mount effect never fires) — scroll up manually in that case instead.
+                const isSameRoute = link.href === location.pathname || (link.href === '/' && isOnLanding);
+                const linkClassName =
+                  'font-normal text-[rgba(4,5,5,0.8)] transition-colors [font-family:Jost,sans-serif] hover:text-[#000d00] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/40 dark:text-[#d1d5db] dark:hover:text-white';
 
-              if (isInternalRoute) {
+                if (isInternalRoute) {
+                  return (
+                    <li key={`${column.id}-${link.label}`}>
+                      <Link
+                        to={link.href}
+                        onClick={(event) => {
+                          if (isSameRoute) {
+                            event.preventDefault();
+                            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                          }
+                        }}
+                        className={linkClassName}
+                        style={{ fontSize: LINK_SIZE }}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                }
+
                 return (
                   <li key={`${column.id}-${link.label}`}>
-                    <Link
-                      to={link.href}
-                      onClick={(event) => {
-                        if (isSameRoute) {
-                          event.preventDefault();
-                          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-                        }
-                      }}
+                    <a
+                      href={link.href}
+                      {...(link.openInNewTab
+                        ? { target: '_blank', rel: 'noopener noreferrer' }
+                        : {})}
                       className={linkClassName}
                       style={{ fontSize: LINK_SIZE }}
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   </li>
                 );
-              }
-
-              return (
-                <li key={`${column.id}-${link.label}`}>
-                  <a
-                    href={link.href}
-                    {...(link.openInNewTab
-                      ? { target: '_blank', rel: 'noopener noreferrer' }
-                      : {})}
-                    className={linkClassName}
-                    style={{ fontSize: LINK_SIZE }}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+              })}
+            </ul>
+          </div>
+        </Fragment>
       ))}
     </nav>
   );
 }
 
-function NewsletterForm() {
+function FooterLegalLinks() {
   return (
-    <form
-      className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center"
-      onSubmit={(event) => event.preventDefault()}
-    >
-      <div
-        className="flex items-center gap-2.5 rounded-[10px] border bg-[#F7F7F7CC] !border-[#D4D4D499]"
-        style={{ paddingInline: fluid(16, 24), paddingBlock: fluid(10, 14), width: 'min(360px, 100%)' }}
-      >
-        <Mail className="size-5 shrink-0 text-[rgba(4,5,5,0.8)]" aria-hidden />
-        <input
-          type="email"
-          name="email"
-          placeholder={landingFooter.emailPlaceholder}
-          aria-label={landingFooter.emailPlaceholder}
-          className="w-full min-w-0 flex-1 border-0 bg-transparent p-0 text-[#000d00] outline-none [font-family:Jost,sans-serif] placeholder:text-[rgba(4,5,5,0.6)]"
-          style={{ fontSize: EMAIL_INPUT_TEXT_SIZE }}
-        />
-      </div>
-      <Link to="/contact"
-        type="submit"
-        style={ctaButtonStyle}
-        className="h-auto shrink-0 rounded-[12px] bg-[#15803d] uppercase text-white shadow-none [font-family:Jost,sans-serif] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/50 focus-visible:ring-offset-2"
-      >
-        {landingFooter.subscribeButton}
-      </Link>
-    </form>
+    <ul className="m-0 flex list-none items-center gap-6 p-0">
+      {landingFooterLegalLinks.map((link) => (
+        <li key={link.label}>
+          <Link
+            to={link.href}
+            className="font-normal text-black transition-colors [font-family:Jost,sans-serif] hover:text-[#15803d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d]/40 dark:text-white"
+            style={{ fontSize: LEGAL_LINK_SIZE }}
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -156,7 +144,7 @@ type LandingFooterProps = {
 export function LandingFooter({ withContactOverlap = true }: LandingFooterProps) {
   return (
     <footer
-      className="relative bg-white"
+      className="relative bg-white dark:bg-black"
       style={{
         marginTop: withContactOverlap ? -FOOTER_OVERLAP : 0,
         paddingTop: withContactOverlap ? CONTENT_PAD_TOP : STANDALONE_PAD_TOP,
@@ -171,14 +159,20 @@ export function LandingFooter({ withContactOverlap = true }: LandingFooterProps)
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
       >
-        <div className="flex flex-col" style={{ gap: fluid(40, 60) }}>
+        <div className="flex flex-col" style={{ gap: fluid(16, 18) }}>
           <motion.div
-            className="flex flex-col items-start gap-10 lg:flex-row lg:justify-between"
+            className="flex flex-col lg:flex-row items-start gap-10 justify-between w-full"
             variants={fadeInUp}
           >
-            <NewsletterBlock />
+            <FooterBrandBlock />
             <FooterLinkColumns />
           </motion.div>
+
+          <motion.div
+            aria-hidden
+            className="w-full border-t border-dashed !border-[#0000001A] dark:!border-white/10"
+            variants={fadeInUp}
+          />
 
           <motion.div
             className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center"
@@ -186,17 +180,17 @@ export function LandingFooter({ withContactOverlap = true }: LandingFooterProps)
             style={{ paddingBottom: fluid(20, 28) }}
           >
             <p
-              className="m-0 font-normal text-[rgba(4,5,5,0.8)] [font-family:Inter,sans-serif]"
+              className="m-0 font-bold text-black dark:text-white [font-family:Jost,sans-serif]"
               style={{ fontSize: COPYRIGHT_SIZE }}
             >
               {landingFooter.copyright}
             </p>
-            <NewsletterForm />
+            <FooterLegalLinks />
           </motion.div>
         </div>
       </motion.div>
 
-      <div aria-hidden className="absolute inset-x-0 bottom-0 bg-[#15803d]" style={{ height: BOTTOM_BAR_HEIGHT }} />
+      {/* <div aria-hidden className="absolute inset-x-0 bottom-0 bg-[#15803d]" style={{ height: BOTTOM_BAR_HEIGHT }} /> */}
     </footer>
   );
 }

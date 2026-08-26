@@ -7,7 +7,16 @@ import performanceManagementIcon from '@/modules/landing/assets/icons/performanc
 import payrollWorkforceIcon from '@/modules/landing/assets/icons/payroll-workforce.svg';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
+import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 import { fluid } from '@/modules/landing/utils/scale';
+
+/** `#rrggbb` → `rgba(r,g,b,alpha)` — used to tint each card's icon-tile color for dark mode. */
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 /** Figma `2070:4120` — "Everything Your HR Team Needs, In One Place". */
 const HEADING_SIZE = fluid(24, 36);
@@ -77,21 +86,29 @@ const SOLUTION_CARDS: readonly SolutionCard[] = [
 ] as const;
 
 function SolutionCardPanel({ card }: { card: SolutionCard }) {
+  const { theme } = useLandingTheme();
+  const isDark = theme === 'dark';
+
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start gap-5 rounded-[16px] border !border-[#D4D4D499] bg-white"
+      className="flex w-full flex-col items-start gap-5 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black"
       style={{ padding: fluid(20, 32) }}
     >
       <div
         className="flex shrink-0 items-center justify-center rounded-[10px] border"
-        style={{ width: ICON_TILE_SIZE, height: ICON_TILE_SIZE, backgroundColor: card.tileBg, borderColor: card.tileBorder }}
+        style={{
+          width: ICON_TILE_SIZE,
+          height: ICON_TILE_SIZE,
+          backgroundColor: isDark ? hexToRgba(card.tileBorder, 0.12) : card.tileBg,
+          borderColor: isDark ? hexToRgba(card.tileBorder, 0.2) : card.tileBorder
+        }}
       >
         <img src={card.icon} alt="" className="size-[45%]" aria-hidden />
       </div>
       <div className="flex w-full flex-col items-start gap-2.5">
         <h3
-          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
           style={{ fontSize: CARD_TITLE_SIZE, letterSpacing: '-0.03em' }}
         >
           {card.title}
@@ -111,7 +128,7 @@ export function SolutionsFeatureGrid() {
   return (
     <motion.section
       aria-labelledby="solutions-grid-heading"
-      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] dark:bg-transparent md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -124,13 +141,13 @@ export function SolutionsFeatureGrid() {
         <motion.header className="flex w-full flex-col items-start gap-4" variants={fadeInUp}>
           <h2
             id="solutions-grid-heading"
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             Everything Your HR Team Needs, In One Place
           </h2>
           <p
-            className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+            className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
             style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
           >
             Manage your people, processes, and workforce data with powerful tools designed to simplify everyday HR

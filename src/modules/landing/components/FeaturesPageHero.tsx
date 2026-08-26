@@ -14,7 +14,7 @@ export function FeaturesPageHero() {
   const navigate = useNavigate();
 
   return (
-    <section aria-labelledby="features-hero-heading" className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !pt-40 !bg-[#F9F9F9]">
+    <section aria-labelledby="features-hero-heading" className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !pt-40 !bg-[#F9F9F9] dark:!bg-transparent">
       <div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start"
         style={{
@@ -33,7 +33,7 @@ export function FeaturesPageHero() {
             <motion.h1
               id="features-hero-heading"
               variants={heroItem}
-              className="m-0 w-full max-w-[760px] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+              className="m-0 w-full max-w-[760px] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
               style={{ fontSize: HEADING_SIZE, lineHeight: 1.26, letterSpacing: '-0.02em', fontWeight: 600 }}
             >
               <span className="font-semibold">
@@ -46,7 +46,7 @@ export function FeaturesPageHero() {
             </motion.h1>
             <motion.p
               variants={heroItem}
-              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
               style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
             >
               Everything you need to manage employees, automate HR workflows, and gain better visibility into your
@@ -68,7 +68,7 @@ export function FeaturesPageHero() {
               variant="secondary"
               onClick={() => navigate('/contact')}
               style={ctaButtonStyle}
-              className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto"
+              className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto dark:!border-white/15 dark:bg-transparent"
               aria-label="Request a demo"
             >
               Request a Demo

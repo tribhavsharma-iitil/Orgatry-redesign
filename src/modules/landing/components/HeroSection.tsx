@@ -5,9 +5,11 @@ import heroVisual from '@/modules/landing/assets/images/hero-visual.png';
 import { floatingDashboard, heroFadeIn, heroItem, heroStagger } from '@/modules/landing/animations/landingMotion';
 import { introConfig } from '@/components/intro';
 import { useIntro } from '@/components/intro/useIntro';
+import { useLogoDockScroll } from '@/components/intro/useLogoDockScroll';
 import { LandingButton } from '@/modules/landing/shared/LandingButton';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { CTA_BUTTON_CLASSNAME, ctaButtonStyle } from '@/modules/landing/constants/ctaButton';
+import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 import { fluid } from '@/modules/landing/utils/scale';
 import { cn } from '@/lib/utils';
 
@@ -44,6 +46,46 @@ const HERO_BODY_SIZE = fluid(16, 18);
 //   );
 // }
 
+/**
+ * YAKA mark + "A YAKA Brand" caption, pinned top-right of the hero.
+ * Reversible: fades out once the page scrolls past `logoDockScrollY` (where the
+ * navbar's own mark takes over) and fades back in the moment you scroll back up —
+ * it never "finishes" and disappears for good like the one-time landing flight does.
+ */
+function YakaHeroMark() {
+  const { isLogoAtHero } = useIntro();
+  const pastThreshold = useLogoDockScroll();
+
+  return (
+    <div
+      id={introConfig.heroAnchorId}
+      className="pointer-events-none absolute top-[4.25rem] right-2 z-40 sm:right-3 md:top-20 md:right-4 lg:top-24 lg:right-8 xl:right-12"
+      style={{ width: introConfig.heroLogoSize, height: introConfig.heroLogoSize }}
+      aria-hidden
+    >
+      {isLogoAtHero ? (
+        <motion.div
+          className="flex h-full w-full flex-col items-center justify-center gap-1.5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: pastThreshold ? 0 : 1 }}
+          transition={{ duration: 0.35 }}
+        >
+          <img
+            src={introConfig.iconLogo}
+            alt=""
+            className="h-6 w-6 object-contain sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-14 lg:w-14 dark:brightness-0 dark:invert"
+            decoding="async"
+            draggable={false}
+          />
+          <p className="m-0 whitespace-nowrap text-[9px] leading-none font-medium dark:text-[#ffffff] text-[#188f44] sm:text-[10px] md:text-[11px]">
+            A <span className="font-bold">YAKA</span> Brand
+          </p>
+        </motion.div>
+      ) : null}
+    </div>
+  );
+}
+
 function HeroCopy({
   onPrimary,
   onSecondary,
@@ -64,7 +106,7 @@ function HeroCopy({
         <motion.h1
           variants={heroItem}
           style={{ fontSize: HERO_HEADING_SIZE }}
-          className="m-0 w-full leading-[1.26] tracking-[-0.02em] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 w-full leading-[1.26] tracking-[-0.02em] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
         >
           <span className="font-bold">Simplifying HR Management </span>
           <span className="font-thin">for a Modern Workplace</span>
@@ -72,7 +114,7 @@ function HeroCopy({
         <motion.p
           variants={heroItem}
           style={{ fontSize: HERO_BODY_SIZE }}
-          className="m-0 w-full leading-[1.5] font-normal text-[#000d00]/70 [font-family:Jost,sans-serif]"
+          className="m-0 w-full leading-[1.5] font-normal text-[#000d00]/70 [font-family:Jost,sans-serif] dark:text-white/70"
         >
           Orgatry delivers smart HRMS solutions that streamline operations, empower employees, and drive business
           growth.
@@ -95,7 +137,7 @@ function HeroCopy({
           variant="secondary"
           onClick={onSecondary}
           style={ctaButtonStyle}
-          className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto"
+          className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto dark:!border-white/15 dark:bg-transparent"
           aria-label="Request a demo"
         >
           Request a Demo
@@ -114,6 +156,7 @@ function HeroCopy({
 export function HeroSection() {
   const navigate = useNavigate();
   const { isContentReady } = useIntro();
+  const { theme } = useLandingTheme();
 
   const goContact = useCallback(() => {
     navigate('/contact');
@@ -128,16 +171,7 @@ export function HeroSection() {
       initial="hidden"
       animate={isContentReady ? 'visible' : 'hidden'}
     >
-      {/* Measured destination for the flying brand logo — invisible anchor only */}
-      <div
-        id={introConfig.heroAnchorId}
-        className="pointer-events-none absolute top-[140px] right-6 z-40 hidden min-[768px]:block min-[1440px]:top-[169px] min-[1440px]:right-auto min-[1440px]:left-1/2 min-[1440px]:ml-[578px]"
-        style={{
-          width: introConfig.heroLogoSize,
-          height: introConfig.heroLogoSize
-        }}
-        aria-hidden
-      />
+      <YakaHeroMark />
 {/* 
       <VerticalGuideLines /> */}
 
@@ -173,7 +207,9 @@ export function HeroSection() {
         className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-12 md:h-16 lg:h-20"
         style={{
           background:
-            'linear-gradient(180deg, rgba(243,243,245,0) 0%, rgba(243,243,245,0.3) 47.99%, rgb(243,243,245) 100%)'
+            theme === 'dark'
+              ? 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 47.99%, rgb(0,0,0) 100%)'
+              : 'linear-gradient(180deg, rgba(243,243,245,0) 0%, rgba(243,243,245,0.3) 47.99%, rgb(243,243,245) 100%)'
         }}
       />
     </motion.section>

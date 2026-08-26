@@ -76,7 +76,7 @@ export function TestimonialsSection() {
   return (
     <motion.section
       aria-labelledby="testimonials-heading"
-      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] dark:bg-transparent md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -89,13 +89,13 @@ export function TestimonialsSection() {
       >
         <h2
           id="testimonials-heading"
-          className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
           style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
         >
           What Our Happy Clients Are Saying
         </h2>
         <p
-          className="w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] mb-8"
+          className="w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] mb-8 dark:text-white"
           style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
         >
           Hear from satisfied clients who have transformed their property management<br className="hidden md:block" /> experience with our platform.

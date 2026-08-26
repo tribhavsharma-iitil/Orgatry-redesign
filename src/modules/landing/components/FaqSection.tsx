@@ -30,7 +30,7 @@ function FaqItem({ id, question, answer, open, onToggle }: FaqItemProps) {
 
   return (
     <div
-      className="flex w-full flex-col items-start gap-2.5 rounded-[16px] border !border-[#D4D4D499] bg-white"
+      className="flex w-full flex-col items-start gap-2.5 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black"
       style={{ padding: fluid(16, 20) }}
     >
       <button
@@ -42,12 +42,12 @@ function FaqItem({ id, question, answer, open, onToggle }: FaqItemProps) {
         className="flex w-full cursor-pointer items-start justify-between gap-4 bg-transparent p-0 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188f44]/40 focus-visible:ring-offset-2"
       >
         <span
-          className="text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
           style={{ fontSize: QUESTION_SIZE, letterSpacing: '-0.02em' }}
         >
           {question}
         </span>
-        <span className="mt-0.5 shrink-0 text-[#000d00]" aria-hidden>
+        <span className="mt-0.5 shrink-0 text-[#000d00] dark:text-white" aria-hidden>
           {open ? <ChevronUp className="size-5" /> : <ChevronDown className="size-5" />}
         </span>
       </button>
@@ -89,7 +89,7 @@ export function FaqSection() {
   return (
     <motion.section
       aria-labelledby="faq-heading"
-      className="relative bg-white md:py-20 py-10"
+      className="relative bg-white dark:bg-black md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -105,7 +105,7 @@ export function FaqSection() {
         >
           <h2
             id="faq-heading"
-            className="lg:max-w-[25rem] m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="lg:max-w-[25rem] m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             General questions asked by customers
@@ -113,7 +113,7 @@ export function FaqSection() {
 
           <div className="flex w-full flex-col items-start gap-6">
             <p
-              className="m-0 w-full font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+              className="m-0 w-full font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
               style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
             >
               Our friendly team is always here to help you with quick, clear and reliable answers whenever needed.

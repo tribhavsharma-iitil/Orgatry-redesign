@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import darkLogo from '@/assets/orgatry_dark_logo.png';
+import lightLogo from '@/assets/orgatry_light_logo.png';
 import {
   memo,
   useCallback,
@@ -14,12 +15,15 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import { introConfig } from '@/components/intro';
 import { useIntro } from '@/components/intro/useIntro';
+import { useLogoDockScroll } from '@/components/intro/useLogoDockScroll';
 import { navbarFadeIn } from '@/modules/landing/animations/landingMotion';
 import { landingNavItems, landingNavSectionIds } from '@/modules/landing/constants/navigation';
 import { landingTokens } from '@/modules/landing/constants/tokens';
 import { useActiveSection } from '@/modules/landing/hooks/useActiveSection';
 import { useSmoothScroll } from '@/modules/landing/hooks/useSmoothScroll';
 import { LandingButton } from '@/modules/landing/shared/LandingButton';
+import { ThemeToggle } from '@/modules/landing/theme/ThemeToggle';
+import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 import { fluid } from '@/modules/landing/utils/scale';
 import { cn } from '@/lib/utils';
 
@@ -51,15 +55,17 @@ const NAV_ROUTE_BY_ID: Record<string, string> = {
 };
 
 function OrgatryLogo({ onNavigate }: { onNavigate: () => void }) {
+  const { theme } = useLandingTheme();
+
   return (
     <button
       type="button"
       onClick={onNavigate}
-      className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+      className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
       aria-label="Orgatry home"
     >
       <img
-        src={darkLogo}
+        src={theme === 'dark' ? lightLogo : darkLogo}
         alt="Orgatry"
         className="lg:h-[40px] h-6 w-auto"
         loading="eager"
@@ -68,38 +74,38 @@ function OrgatryLogo({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
-function NavbarLogoAnchor({ showLogo }: { showLogo: boolean }) {
+/**
+ * YAKA mark that reveals in the navbar once the page scrolls past the hero's
+ * `logoDockScrollY` threshold — reversible (`AnimatePresence` handles both the
+ * mount and unmount transition) so it recedes again the moment you scroll back up.
+ */
+function NavbarLogoReveal({ show }: { show: boolean }) {
   const size = introConfig.navbarLogoSize;
 
   return (
-    <div
-      className="relative shrink-0"
-      style={{
-        // Collapse until dock completes — no early navbar icon / layout hole
-        width: showLogo ? size : 0,
-        height: size
-      }}
-    >
-      {/* Always-measurable dock target (absolute); icon only when finished */}
-      <div
-        id={introConfig.navbarAnchorId}
-        className="absolute top-1/2 right-0 -translate-y-1/2"
-        style={{ width: size, height: size }}
-        aria-hidden={!showLogo}
-      >
-        {showLogo ? (
+    <AnimatePresence mode="popLayout">
+      {show ? (
+        <motion.div
+          key="navbar-yaka"
+          initial={{ opacity: 0, width: 0, scale: 0.85 }}
+          animate={{ opacity: 1, width: 'auto', scale: 1 }}
+          exit={{ opacity: 0, width: 0, scale: 0.85 }}
+          transition={{ type: 'spring', stiffness: 180, damping: 22 }}
+          className="flex shrink-0 items-center overflow-hidden"
+        >
           <img
             src={introConfig.iconLogo}
             alt="YAKA"
             width={size}
             height={size}
-            className="size-full object-contain"
+            className="shrink-0 object-contain dark:brightness-0 dark:invert"
+            style={{ width: size, height: size }}
             decoding="async"
             draggable={false}
           />
-        ) : null}
-      </div>
-    </div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }
 
@@ -120,7 +126,14 @@ function LandingNavbarComponent() {
   });
   const activeId = routeActiveId ?? scrollActiveId;
   const { scrollToSection } = useSmoothScroll();
-  const { isContentReady, showNavbarLogo, shiftNavbarControls } = useIntro();
+  const { isContentReady, isLogoAtHero } = useIntro();
+  const pastLogoDockThreshold = useLogoDockScroll();
+  const showNavbarLogo = isLogoAtHero && pastLogoDockThreshold;
+  const { theme, isThemeable } = useLandingTheme();
+  const navPillStyle =
+    theme === 'dark'
+      ? { backgroundColor: '#000000', boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)' }
+      : NAV_PILL_STYLE;
 
   const handleNavigate = useCallback(
     (sectionId: string) => {
@@ -223,7 +236,7 @@ function LandingNavbarComponent() {
 
   return (
     <motion.header
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 lg:border-b !border-[#1010101A] bg-[rgba(255,255,255,0.5)] backdrop-blur-[30px]"
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 lg:border-b !border-[#1010101A] bg-[rgba(255,255,255,0.5)] backdrop-blur-[30px] dark:!border-[rgba(255,255,255,0.1)] dark:bg-[rgba(0,0,0,0.5)]"
       variants={navbarFadeIn}
       initial="hidden"
       animate={isContentReady ? 'visible' : 'hidden'}
@@ -253,8 +266,8 @@ function LandingNavbarComponent() {
                     aria-current={isActive ? 'true' : undefined}
                     style={{ fontSize: NAV_LINK_TEXT }}
                     className={cn(
-                      'leading-[1.5] transition-colors duration-200 [font-family:Inter,sans-serif] hover:text-[#188F44] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-                      isActive ? 'font-bold text-[#188F44]' : 'font-normal text-[#3e3e3e]'
+                      'leading-[1.5] transition-colors duration-200 [font-family:Inter,sans-serif] hover:text-[#188F44] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black',
+                      isActive ? 'font-bold text-[#188F44]' : 'font-normal text-[#3e3e3e] dark:text-[#d1d5db]'
                     )}
                   >
                     {item.label}
@@ -265,25 +278,17 @@ function LandingNavbarComponent() {
           </ul>
 
           <div className="flex shrink-0 items-center gap-3">
-            <motion.div
-              className="shrink-0"
-              animate={{ x: shiftNavbarControls ? -introConfig.navbarShiftPx : 0 }}
-              transition={{
-                duration: introConfig.navbarShiftDuration / 1000,
-                ease: 'easeInOut'
-              }}
+            {isThemeable ? <ThemeToggle /> : null}
+            <LandingButton
+              variant="primary"
+              onClick={handleContact}
+              style={{ paddingInline: CTA_PAD_X, paddingBlock: CTA_PAD_Y, fontSize: CTA_TEXT }}
+              className="h-auto shrink-0 bg-none bg-[#188F44] [font-family:Inter,sans-serif] shadow-[0_6px_20px_rgba(24,143,68,0.25)] hover:shadow-[0_8px_24px_rgba(24,143,68,0.32)] focus-visible:ring-[#188F44]/50 focus-visible:ring-offset-white"
+              aria-label="Get In Touch"
             >
-              <LandingButton
-                variant="primary"
-                onClick={handleContact}
-                style={{ paddingInline: CTA_PAD_X, paddingBlock: CTA_PAD_Y, fontSize: CTA_TEXT }}
-                className="h-auto shrink-0 bg-none bg-[#188F44] [font-family:Inter,sans-serif] shadow-[0_6px_20px_rgba(24,143,68,0.25)] hover:shadow-[0_8px_24px_rgba(24,143,68,0.32)] focus-visible:ring-[#188F44]/50 focus-visible:ring-offset-white"
-                aria-label="Get In Touch"
-              >
-                Get In Touch
-              </LandingButton>
-            </motion.div>
-            {isLgNav ? <NavbarLogoAnchor showLogo={showNavbarLogo} /> : null}
+              Get In Touch
+            </LandingButton>
+            {isLgNav ? <NavbarLogoReveal show={showNavbarLogo} /> : null}
           </div>
         </nav>
       </div>
@@ -299,21 +304,14 @@ function LandingNavbarComponent() {
           className="flex items-center justify-between px-4 py-3"
           style={{
             minHeight: 56,
-            backgroundColor: NAV_PILL_STYLE.backgroundColor,
-            boxShadow: NAV_PILL_STYLE.boxShadow
+            backgroundColor: navPillStyle.backgroundColor,
+            boxShadow: navPillStyle.boxShadow
           }}
         >
           <OrgatryLogo onNavigate={handleHome} />
 
           <div className="flex items-center gap-2">
-            <motion.div
-              className="hidden sm:block"
-              animate={{ x: shiftNavbarControls ? -introConfig.navbarShiftPx : 0 }}
-              transition={{
-                duration: introConfig.navbarShiftDuration / 1000,
-                ease: 'easeInOut'
-              }}
-            >
+            <div className="hidden sm:block">
               <LandingButton
                 variant="primary"
                 onClick={handleContact}
@@ -322,14 +320,16 @@ function LandingNavbarComponent() {
               >
                 Get In Touch
               </LandingButton>
-            </motion.div>
+            </div>
 
-            {!isLgNav ? <NavbarLogoAnchor showLogo={showNavbarLogo} /> : null}
+            {!isLgNav ? <NavbarLogoReveal show={showNavbarLogo} /> : null}
+
+            {isThemeable ? <ThemeToggle /> : null}
 
             <button
               ref={menuToggleRef}
               type="button"
-              className="inline-flex size-10 items-center justify-center rounded-full text-[#171717] hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50"
+              className="inline-flex size-10 items-center justify-center rounded-full text-[#171717] hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50 dark:text-white dark:hover:bg-white/10"
               aria-expanded={mobileOpen}
               aria-controls={menuId}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
@@ -353,7 +353,7 @@ function LandingNavbarComponent() {
               animate={{ opacity: 1, y: 0, height: 'auto' }}
               exit={{ opacity: 0, y: -6, height: 0 }}
               transition={{ duration: landingTokens.motion.durationBase, ease: landingTokens.motion.easeOut }}
-              className="mt-2 overflow-hidden rounded-[24px] bg-white shadow-[0_12px_32px_rgba(15,23,42,0.12)]"
+              className="mt-2 overflow-hidden rounded-[24px] bg-white shadow-[0_12px_32px_rgba(15,23,42,0.12)] dark:bg-black dark:shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
               onKeyDown={onMenuKeyDown}
             >
               <ul className="flex flex-col gap-1 p-3">
@@ -367,8 +367,8 @@ function LandingNavbarComponent() {
                         onClick={onNavItemClick}
                         aria-current={isActive ? 'true' : undefined}
                         className={cn(
-                          'w-full rounded-xl px-4 py-3 text-left text-base text-[#171717] transition-colors [font-family:Inter,sans-serif] hover:text-[#188F44] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50',
-                          isActive ? 'bg-[#188F44]/10 font-medium text-[#188F44]' : 'text-[#171717]/80'
+                          'w-full rounded-xl px-4 py-3 text-left text-base text-[#171717] transition-colors [font-family:Inter,sans-serif] hover:text-[#188F44] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50 dark:text-white',
+                          isActive ? 'bg-[#188F44]/10 font-medium text-[#188F44]' : 'text-[#171717]/80 dark:text-[#d1d5db]'
                         )}
                       >
                         {item.label}
@@ -376,6 +376,12 @@ function LandingNavbarComponent() {
                     </li>
                   );
                 })}
+                {isThemeable ? (
+                  <li className="flex items-center justify-between px-4 py-2 text-sm text-[#171717]/80 dark:text-[#d1d5db]">
+                    <span className="[font-family:Inter,sans-serif]">Theme</span>
+                    <ThemeToggle />
+                  </li>
+                ) : null}
                 <li className="pt-2">
                   <LandingButton
                     variant="primary"

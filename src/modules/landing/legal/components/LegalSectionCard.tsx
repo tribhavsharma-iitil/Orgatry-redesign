@@ -9,7 +9,7 @@ const CARD_HOVER_SHADOW = 'hover:shadow-[2px_6px_18px_0px_rgba(0,0,0,0.18)]';
 function BlockContent({ block }: { block: LegalBlock }) {
   if (block.type === 'paragraph') {
     return (
-      <p className="m-0 text-[15px] leading-7 text-[#595959] [font-family:Inter,sans-serif] md:text-base md:leading-8">
+      <p className="m-0 text-[15px] leading-7 text-[#595959] dark:text-[#d1d5db] [font-family:Inter,sans-serif] md:text-base md:leading-8">
         {block.text}
       </p>
     );
@@ -17,7 +17,7 @@ function BlockContent({ block }: { block: LegalBlock }) {
 
   if (block.type === 'list') {
     return (
-      <ul className="m-0 flex list-disc flex-col gap-2.5 pl-5 text-[15px] leading-7 text-[#595959] [font-family:Inter,sans-serif] md:text-base md:leading-8">
+      <ul className="m-0 flex list-disc flex-col gap-2.5 pl-5 text-[15px] leading-7 text-[#595959] dark:text-[#d1d5db] [font-family:Inter,sans-serif] md:text-base md:leading-8">
         {block.items.map((item) => (
           <li key={item} className="pl-1">
             {item}
@@ -36,7 +36,7 @@ function BlockContent({ block }: { block: LegalBlock }) {
             <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-[#15803d] [font-family:Manrope,sans-serif]">
               {entry.label}
             </dt>
-            <dd className="m-0 text-base font-medium text-[#171717] [font-family:Inter,sans-serif]">
+            <dd className="m-0 text-base font-medium text-[#171717] dark:text-white [font-family:Inter,sans-serif]">
               {isEmail ? (
                 <a
                   href={`mailto:${entry.value}`}
@@ -67,14 +67,14 @@ export function LegalSectionCard({ section, className }: LegalSectionCardProps) 
       variants={fadeInUp}
       whileHover={{ y: -3, transition: { duration: 0.3, ease: 'easeInOut' } }}
       className={cn(
-        'group rounded-[20px] border border-[#e9e9eb] bg-[#fefefe] p-6 md:p-8',
+        'group rounded-[20px] border border-[#e9e9eb] bg-[#fefefe] p-6 md:p-8 dark:border-white/10 dark:bg-black',
         CARD_SHADOW,
         CARD_HOVER_SHADOW,
         'transition-shadow duration-300 ease-in-out',
         className
       )}
     >
-      <h2 className="m-0 text-xl font-semibold tracking-tight text-[#171717] [font-family:Inter,sans-serif] md:text-2xl">
+      <h2 className="m-0 text-xl font-semibold tracking-tight text-[#171717] dark:text-white [font-family:Inter,sans-serif] md:text-2xl">
         {section.title}
       </h2>
       <div className="mt-4 flex flex-col gap-4">

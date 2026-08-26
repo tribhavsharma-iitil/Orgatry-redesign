@@ -6,12 +6,10 @@ export const IntroContext = createContext<IntroContextValue | null>(null);
 const SKIPPED_FALLBACK: IntroContextValue = {
   phase: 'skipped',
   isContentReady: true,
-  showNavbarLogo: false,
-  shiftNavbarControls: false,
+  isLogoAtHero: true,
   loaderRect: null,
   completeLoader: () => undefined,
-  arriveAtHero: () => undefined,
-  finishIntro: () => undefined
+  arriveAtHero: () => undefined
 };
 
 /**

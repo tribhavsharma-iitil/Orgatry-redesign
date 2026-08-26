@@ -1,25 +1,30 @@
 import { motion } from 'framer-motion';
 import { introConfig } from '@/components/intro';
+import orgatryLightLogo from '@/assets/orgatry_light_logo.png';
 import '@/modules/landing/styles/landing-fonts.css';
 
 /**
- * Suspense fallback for public landing routes — white shell matching the intro loader
- * so the dark app PageSkeleton never flashes before the page mounts.
+ * Suspense fallback for public landing routes — shell matching the intro loader
+ * so the dashboard's dark PageSkeleton never flashes before the page mounts.
+ * Reads the `dark` class index.html's anti-flash script already applied to
+ * <html> (synchronously, before this ever renders) so it doesn't itself
+ * flash light before the resolved theme takes over.
  */
 export function LandingRouteFallback() {
   const size = introConfig.loaderLogoSize;
+  const isDark = document.documentElement.classList.contains('dark');
 
   return (
     <div
-      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white"
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white dark:bg-black"
       role="status"
       aria-live="polite"
       aria-label="Loading Orgatry"
     >
       <div className="relative z-10 flex flex-col items-center gap-5">
         <img
-          src={introConfig.brandLogo}
-          alt="YAKA"
+          src={isDark ? orgatryLightLogo : introConfig.brandLogo}
+          alt="Orgatry"
           width={size}
           height={size}
           className="object-contain"
@@ -29,7 +34,7 @@ export function LandingRouteFallback() {
         />
 
         <div
-          className="overflow-hidden rounded-full bg-[#e8e8ea]"
+          className="overflow-hidden rounded-full bg-[#e8e8ea] dark:bg-white/10"
           style={{ width: 80, height: 2 }}
           aria-hidden
         >

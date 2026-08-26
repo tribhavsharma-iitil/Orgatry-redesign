@@ -14,7 +14,7 @@ export function SolutionsPageHero() {
   const navigate = useNavigate();
 
   return (
-    <section aria-labelledby="solutions-hero-heading" className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !pt-40">
+    <section aria-labelledby="solutions-hero-heading" className="relative overflow-x-hidden bg-[#F7F7F7CC] dark:bg-transparent md:py-20 py-10 !pt-40">
       <div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start"
         style={{
@@ -33,7 +33,7 @@ export function SolutionsPageHero() {
             <motion.h1
               id="solutions-hero-heading"
               variants={heroItem}
-              className="m-0 w-full max-w-[900px] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+              className="m-0 w-full max-w-[900px] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
               style={{ fontSize: HEADING_SIZE, lineHeight: 1.26, letterSpacing: '-0.02em' }}
             >
               <span className="font-semibold">HR Solutions </span>
@@ -41,7 +41,7 @@ export function SolutionsPageHero() {
             </motion.h1>
             <motion.p
               variants={heroItem}
-              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
               style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
             >
               From employee management to recruitment and performance, Orgatry brings every HR workflow together in one
@@ -63,7 +63,7 @@ export function SolutionsPageHero() {
               variant="secondary"
               onClick={() => navigate('/contact')}
               style={ctaButtonStyle}
-              className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto"
+              className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto dark:!border-white/15 dark:bg-transparent"
               aria-label="Request a demo"
             >
               Request a Demo

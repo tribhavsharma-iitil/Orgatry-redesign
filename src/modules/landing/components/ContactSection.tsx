@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
-import { Loader2, Mail, MapPin, Phone } from 'lucide-react';
+import { CheckCircle2, Loader2, Mail, MapPin, Phone, XCircle } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { type ChangeEvent, type FormEvent, useId, useState } from 'react';
-import { toast } from 'sonner';
 import { fadeInUp, staggerContainer } from '@/modules/landing/animations/landingMotion';
 import {
   landingContact,
@@ -40,7 +39,8 @@ const fieldClassName = cn(
   'h-[52px] w-full rounded-[10px] border !border-[#FFFFFF1A] bg-[rgba(0,0,0,0.04)] px-5 py-3 shadow-none',
   'text-[#000d00] [font-family:Jost,sans-serif] placeholder:text-[#6d6d6d]',
   'focus:border-[#188f44]/40 focus:ring-2 focus:ring-[#188f44]/30',
-  'transition-[box-shadow,background-color] duration-200'
+  'transition-[box-shadow,background-color] duration-200',
+  'dark:!border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-white/40'
 );
 
 function ContactInfoList() {
@@ -55,13 +55,13 @@ function ContactInfoList() {
         const text = (
           <>
             <p
-              className="m-0 font-bold text-[#131313] [font-family:'Bricolage_Grotesque',sans-serif]"
+              className="m-0 font-bold text-[#131313] dark:text-white [font-family:'Bricolage_Grotesque',sans-serif]"
               style={{ fontSize: INFO_LABEL_SIZE, letterSpacing: '-0.02em' }}
             >
               {item.label}
             </p>
             <p
-              className="m-0 font-normal text-[#545454] [font-family:Jost,sans-serif]"
+              className="m-0 font-normal text-[#545454] dark:text-[#d1d5db] [font-family:Jost,sans-serif]"
               style={{ fontSize: INFO_VALUE_SIZE, lineHeight: 1.6 }}
             >
               {item.value}
@@ -72,7 +72,7 @@ function ContactInfoList() {
         return (
           <li key={item.id} className="flex items-center" style={{ gap: fluid(16, 24) }}>
             <span
-              className="inline-flex shrink-0 items-center justify-center rounded-[20px] border !border-[#D4D4D499] bg-white"
+              className="inline-flex shrink-0 items-center justify-center rounded-[20px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black"
               style={{ width: fluid(60, 60), height: fluid(60, 60) }}
               aria-hidden
             >
@@ -113,6 +113,31 @@ const INITIAL_CONTACT_VALUES: ContactFormValues = {
 
 type ContactFormErrors = Partial<Record<keyof ContactFormValues, string>>;
 
+type ContactStatus = 'idle' | 'success' | 'error';
+
+function StatusMessage({ message, status }: { message: string; status: ContactStatus }) {
+  if (!message) {
+    return null;
+  }
+
+  const isSuccess = status === 'success';
+
+  return (
+    <p
+      role="status"
+      aria-live="polite"
+      className={`mt-4 flex items-start gap-2 rounded-xl border px-4 py-3 text-sm font-semibold leading-relaxed ${
+        isSuccess
+          ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800/40 dark:bg-emerald-950/40 dark:text-emerald-300'
+          : 'border-red-200 bg-red-50 text-red-800 dark:border-red-800/40 dark:bg-red-950/40 dark:text-red-300'
+      }`}
+    >
+      {isSuccess ? <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" /> : <XCircle className="mt-0.5 h-5 w-5 shrink-0" />}
+      <span>{message}</span>
+    </p>
+  );
+}
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validateContactForm(values: ContactFormValues): ContactFormErrors {
@@ -150,6 +175,8 @@ function ContactForm() {
   const [values, setValues] = useState<ContactFormValues>(INITIAL_CONTACT_VALUES);
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<ContactStatus>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
 
   function handleFieldChange(field: keyof ContactFormValues) {
     return (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -174,6 +201,8 @@ function ContactForm() {
 
     setErrors({});
     setIsSubmitting(true);
+    setStatus('idle');
+    setStatusMessage('');
 
     try {
       await contactApi.submit({
@@ -184,10 +213,12 @@ function ContactForm() {
         brand: 'orgatry'
       });
 
-      toast.success('Your message has been submitted successfully.');
+      setStatus('success');
+      setStatusMessage('Your message has been submitted successfully.');
       setValues(INITIAL_CONTACT_VALUES);
     } catch (error) {
-      toast.error(getContactErrorMessage(error));
+      setStatus('error');
+      setStatusMessage(getContactErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -209,7 +240,7 @@ function ContactForm() {
         <div className="flex flex-1 flex-col gap-2">
           <Label
             htmlFor={firstNameId}
-            className="font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+            className="font-normal text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
             style={{ fontSize: FIELD_LABEL_SIZE }}
           >
             {landingContact.fields.firstName.label}
@@ -237,7 +268,7 @@ function ContactForm() {
         <div className="flex flex-1 flex-col gap-2">
           <Label
             htmlFor={lastNameId}
-            className="font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+            className="font-normal text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
             style={{ fontSize: FIELD_LABEL_SIZE }}
           >
             {landingContact.fields.lastName.label}
@@ -267,7 +298,7 @@ function ContactForm() {
       <div className="flex flex-col gap-2">
         <Label
           htmlFor={emailId}
-          className="font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+          className="font-normal text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
           style={{ fontSize: FIELD_LABEL_SIZE }}
         >
           {landingContact.fields.email.label}
@@ -296,7 +327,7 @@ function ContactForm() {
       <div className="flex flex-col gap-2">
         <Label
           htmlFor={subjectId}
-          className="font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+          className="font-normal text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
           style={{ fontSize: FIELD_LABEL_SIZE }}
         >
           {landingContact.fields.subject.label}
@@ -324,7 +355,7 @@ function ContactForm() {
       <div className="flex flex-col gap-2">
         <Label
           htmlFor={descriptionId}
-          className="font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+          className="font-normal text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
           style={{ fontSize: FIELD_LABEL_SIZE }}
         >
           {landingContact.fields.description.label}
@@ -358,6 +389,8 @@ function ContactForm() {
         {isSubmitting ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
         {isSubmitting ? 'Submitting...' : landingContact.submitLabel}
       </LandingButton>
+
+      <StatusMessage message={statusMessage} status={status} />
     </form>
   );
 }
@@ -367,7 +400,7 @@ export function ContactSection() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative scroll-mt-28 bg-[#F7F7F7CC] lg:py-20 py-10"
+      className="relative scroll-mt-28 bg-[#F7F7F7CC] dark:bg-black lg:py-20 py-10"
     >
       <motion.div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start lg:flex-row lg:justify-between"
@@ -384,13 +417,13 @@ export function ContactSection() {
           <div className="flex w-full flex-col items-start" style={{ gap: fluid(20, 32) }}>
             <h2
               id="contact-heading"
-              className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+              className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
               style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
             >
               {landingContact.heading}
             </h2>
             <p
-              className="m-0 w-full font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+              className="m-0 w-full font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
               style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
             >
               {landingContact.supporting}
@@ -401,7 +434,7 @@ export function ContactSection() {
         </motion.div>
 
         <motion.div
-          className="w-full rounded-[16px] border !border-[#D4D4D499] bg-white lg:max-w-[600px]"
+          className="w-full rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black lg:max-w-[600px]"
           style={{ padding: fluid(20, 32) }}
           variants={fadeInUp}
         >

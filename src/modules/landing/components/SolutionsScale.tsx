@@ -1,7 +1,16 @@
 import { motion } from 'framer-motion';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
+import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 import { fluid } from '@/modules/landing/utils/scale';
+
+/** `#rrggbb` → `rgba(r,g,b,alpha)` — used to tint each card's tag color for dark mode. */
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 /** Figma `2070:4626` — "HR Management That Scales With Your Business". */
 const HEADING_SIZE = fluid(24, 36);
@@ -54,18 +63,21 @@ const SCALE_CARDS: readonly ScaleCard[] = [
 ] as const;
 
 function ScaleCardPanel({ card }: { card: ScaleCard }) {
+  const { theme } = useLandingTheme();
+  const isDark = theme === 'dark';
+
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start gap-5 rounded-[20px] border !border-[#D4D4D499] bg-white"
+      className="flex w-full flex-col items-start gap-5 rounded-[20px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black"
       style={{ padding: fluid(18, 24) }}
     >
       <div className="flex w-full flex-col items-start gap-3">
         <span
-          className="inline-flex items-center justify-center rounded-[8px] border whitespace-nowrap text-black [font-family:Jost,sans-serif]"
+          className="inline-flex items-center justify-center rounded-[8px] border whitespace-nowrap text-black dark:text-white [font-family:Jost,sans-serif]"
           style={{
-            backgroundColor: card.tagBg,
-            borderColor: card.tagBorder,
+            backgroundColor: isDark ? hexToRgba(card.tagBorder, 0.12) : card.tagBg,
+            borderColor: isDark ? hexToRgba(card.tagBorder, 0.2) : card.tagBorder,
             fontSize: TAG_TEXT_SIZE,
             padding: `${fluid(8, 10.5)} ${fluid(12, 16)}`
           }}
@@ -73,7 +85,7 @@ function ScaleCardPanel({ card }: { card: ScaleCard }) {
           {card.tag}
         </span>
         <h3
-          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
           style={{ fontSize: CARD_TITLE_SIZE, letterSpacing: '-0.03em' }}
         >
           {card.title}
@@ -93,7 +105,7 @@ export function SolutionsScale() {
   return (
     <motion.section
       aria-labelledby="solutions-scale-heading"
-      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] dark:bg-transparent md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -106,7 +118,7 @@ export function SolutionsScale() {
         <motion.header className="flex w-full flex-col items-start" variants={fadeInUp}>
           <h2
             id="solutions-scale-heading"
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             HR Management That Scales With Your Business

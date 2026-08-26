@@ -26,14 +26,33 @@
   <script>
     (function () {
       var path = location.pathname.replace(/\/+$/, "") || "/";
-      if (path === "/") {
-        document.documentElement.style.background = "#ffffff";
-        document.documentElement.style.colorScheme = "light";
+      var landingPaths = ["/", "/privacy-policy", "/terms-and-conditions", "/solutions", "/features", "/about-us", "/contact"];
+      if (landingPaths.indexOf(path) !== -1) {
+        var STORAGE_KEY = "orgatry-landing-theme";
+        var t;
+        try {
+          var p = new URLSearchParams(location.search);
+          var u = p.get("theme");
+          if (u === "dark" || u === "light") {
+            t = u;
+            try { localStorage.setItem(STORAGE_KEY, t); } catch (e) {}
+            p.delete("theme");
+            var q = p.toString();
+            history.replaceState(null, "", location.pathname + (q ? "?" + q : "") + location.hash);
+          } else {
+            t = localStorage.getItem(STORAGE_KEY);
+          }
+        } catch (e) {}
+        var isDark = t ? t === "dark" : true;
+        var bg = isDark ? "#000000" : "#ffffff";
+        document.documentElement.style.background = bg;
+        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+        if (isDark) document.documentElement.classList.add("dark");
         document.addEventListener("DOMContentLoaded", function () {
-          if (document.body) document.body.style.background = "#ffffff";
+          if (document.body) document.body.style.background = bg;
         });
         var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute("content", "#ffffff");
+        if (meta) meta.setAttribute("content", bg);
       }
     })();
   </script>

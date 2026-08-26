@@ -8,6 +8,7 @@ import { SolutionsPageHero } from '@/modules/landing/components/SolutionsPageHer
 import { SolutionsScale } from '@/modules/landing/components/SolutionsScale';
 import { useLandingDocumentMeta } from '@/modules/landing/hooks/useLandingDocumentMeta';
 import { CtaBanner } from '@/modules/landing/shared/CtaBanner';
+import { LandingThemeProvider } from '@/modules/landing/theme/LandingThemeProvider';
 
 export function SolutionsPage() {
   useLandingDocumentMeta({
@@ -16,14 +17,16 @@ export function SolutionsPage() {
   });
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] [font-family:Inter,sans-serif]">
-      <LandingNavbar />
-      <SolutionsPageHero />
-      <SolutionsFeatureGrid />
-      <SolutionsJourney />
-      <SolutionsScale />
-      <CtaBanner />
-      <LandingFooter withContactOverlap={false} />
-    </main>
+    <LandingThemeProvider>
+      <main className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] dark:bg-black dark:text-white [font-family:Inter,sans-serif]">
+        <LandingNavbar />
+        <SolutionsPageHero />
+        <SolutionsFeatureGrid />
+        <SolutionsJourney />
+        <SolutionsScale />
+        <CtaBanner />
+        <LandingFooter withContactOverlap={false} />
+      </main>
+    </LandingThemeProvider>
   );
 }

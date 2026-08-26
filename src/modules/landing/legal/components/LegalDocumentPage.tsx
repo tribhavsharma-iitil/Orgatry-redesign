@@ -10,6 +10,7 @@ import { LegalHero } from '@/modules/landing/legal/components/LegalHero';
 import { LegalSectionCard } from '@/modules/landing/legal/components/LegalSectionCard';
 import type { LegalPageContent } from '@/modules/landing/legal/types';
 import { LandingContainer } from '@/modules/landing/shared/LandingContainer';
+import { LandingThemeProvider } from '@/modules/landing/theme/LandingThemeProvider';
 
 type LegalDocumentPageProps = {
   content: LegalPageContent;
@@ -27,45 +28,47 @@ export function LegalDocumentPage({ content }: LegalDocumentPageProps) {
   });
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] [font-family:Inter,sans-serif]">
-      <LandingNavbar />
-      <LegalHero badge={content.badge} title={content.title} subtitle={content.subtitle} />
+    <LandingThemeProvider>
+      <main className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] dark:bg-black dark:text-white [font-family:Inter,sans-serif]">
+        <LandingNavbar />
+        <LegalHero badge={content.badge} title={content.title} subtitle={content.subtitle} />
 
-      <section
-        aria-label={`${content.title} content`}
-        className="relative bg-white pb-20 md:pb-28"
-        style={{ marginTop: landingTokens.sectionGapSm }}
-      >
-        <LandingContainer>
-          <motion.div
-            className="mx-auto flex max-w-[820px] flex-col gap-5 md:gap-6"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.08 }}
-          >
+        <section
+          aria-label={`${content.title} content`}
+          className="relative bg-white dark:bg-transparent pb-20 md:pb-28"
+          style={{ marginTop: landingTokens.sectionGapSm }}
+        >
+          <LandingContainer>
             <motion.div
-              variants={fadeInUp}
-              className="flex flex-col gap-4 rounded-[20px] border border-[#e9e9eb] bg-[#f1f9f3] p-6 md:p-8"
+              className="mx-auto flex max-w-[820px] flex-col gap-5 md:gap-6"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.08 }}
             >
-              {content.intro.split('\n\n').map((paragraph) => (
-                <p
-                  key={paragraph.slice(0, 48)}
-                  className="m-0 text-[15px] leading-7 text-[#595959] [font-family:Inter,sans-serif] md:text-base md:leading-8"
-                >
-                  {paragraph}
-                </p>
+              <motion.div
+                variants={fadeInUp}
+                className="flex flex-col gap-4 rounded-[20px] border border-[#e9e9eb] bg-[#f1f9f3] p-6 md:p-8 dark:bg-[rgba(255,255,255,0.05)] dark:border-[rgba(46,46,46,0.6)]"
+              >
+                {content.intro.split('\n\n').map((paragraph) => (
+                  <p
+                    key={paragraph.slice(0, 48)}
+                    className="m-0 text-[15px] leading-7 text-[#595959] dark:text-[#d1d5db] [font-family:Inter,sans-serif] md:text-base md:leading-8"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </motion.div>
+
+              {content.sections.map((section) => (
+                <LegalSectionCard key={section.id} section={section} />
               ))}
             </motion.div>
+          </LandingContainer>
+        </section>
 
-            {content.sections.map((section) => (
-              <LegalSectionCard key={section.id} section={section} />
-            ))}
-          </motion.div>
-        </LandingContainer>
-      </section>
-
-      <LandingFooter withContactOverlap={false} />
-    </main>
+        <LandingFooter withContactOverlap={false} />
+      </main>
+    </LandingThemeProvider>
   );
 }

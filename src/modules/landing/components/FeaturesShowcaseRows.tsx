@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Plus, Search } from 'lucide-react';
 import { fadeIn, fadeInUp } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
+import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 import { fluid } from '@/modules/landing/utils/scale';
 import { cn } from '@/lib/utils';
 
@@ -75,17 +76,17 @@ const DIRECTORY_ROWS = [
 
 function EmployeeDirectoryMockup() {
   return (
-    <div className="w-full overflow-hidden rounded-[16px] border !border-[#D4D4D499] bg-white" aria-hidden>
-      <div className="flex items-center justify-between border-b !border-[#D4D4D499] bg-[#f8f9fb]" style={{ padding: fluid(16, 22) }}>
+    <div className="w-full overflow-hidden rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black" aria-hidden>
+      <div className="flex items-center justify-between border-b !border-[#D4D4D499] bg-[#f8f9fb] dark:!border-[rgba(46,46,46,0.6)] dark:bg-white/5" style={{ padding: fluid(16, 22) }}>
         <p
-          className="m-0 font-semibold text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 font-semibold text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
           style={{ fontSize: fluid(15, 18) }}
         >
           Employee Directory
         </p>
         <div className="flex items-center gap-2">
           <div
-            className="hidden items-center gap-1.5 rounded-[8px] border !border-[#D4D4D499] bg-white text-[#878c91] sm:flex"
+            className="hidden items-center gap-1.5 rounded-[8px] border !border-[#D4D4D499] bg-white text-[#878c91] sm:flex dark:!border-[rgba(46,46,46,0.6)] dark:bg-transparent"
             style={{ paddingInline: fluid(8, 12), paddingBlock: fluid(4, 6), fontSize: fluid(11, 13) }}
           >
             <Search className="size-3.5 shrink-0" aria-hidden />
@@ -104,7 +105,7 @@ function EmployeeDirectoryMockup() {
         {DIRECTORY_ROWS.map((row) => (
           <li
             key={row.id}
-            className="flex items-center justify-between border-b !border-[#EDEDED] last:border-b-0"
+            className="flex items-center justify-between border-b !border-[#EDEDED] last:border-b-0 dark:!border-white/10"
             style={{ padding: fluid(12, 18) }}
           >
             <div className="flex items-center" style={{ gap: fluid(10, 14) }}>
@@ -115,7 +116,7 @@ function EmployeeDirectoryMockup() {
                 {row.initials}
               </span>
               <div className="flex flex-col">
-                <p className="m-0 font-medium text-[#000d00] [font-family:Jost,sans-serif]" style={{ fontSize: fluid(13, 15) }}>
+                <p className="m-0 font-medium text-[#000d00] [font-family:Jost,sans-serif] dark:text-white" style={{ fontSize: fluid(13, 15) }}>
                   {row.name}
                 </p>
                 <p className="m-0 font-normal text-[#878c91] [font-family:Jost,sans-serif]" style={{ fontSize: fluid(11.5, 13) }}>
@@ -145,7 +146,7 @@ function FeatureTagList({ tags }: { tags: readonly string[] }) {
       {tags.map((tag) => (
         <span
           key={tag}
-          className="inline-flex items-center justify-center whitespace-nowrap rounded-[8px] border !border-[#D4D4D499] bg-[#f8f9fb] text-[#454545] [font-family:Jost,sans-serif]"
+          className="inline-flex items-center justify-center whitespace-nowrap rounded-[8px] border !border-[#D4D4D499] bg-[#f8f9fb] text-[#454545] [font-family:Jost,sans-serif] dark:!border-[rgba(46,46,46,0.6)] dark:bg-white/5 dark:text-[#d1d5db]"
           style={{ fontSize: TAG_TEXT_SIZE, paddingInline: fluid(10, 14), paddingBlock: fluid(6, 8) }}
         >
           {tag}
@@ -158,7 +159,7 @@ function FeatureTagList({ tags }: { tags: readonly string[] }) {
 function StepBadge({ label, bg, border }: { label: string; bg: string; border: string }) {
   return (
     <span
-      className="inline-flex h-[34px] items-center justify-center whitespace-nowrap rounded-[8px] border font-semibold text-[#000d00] uppercase [font-family:'Bricolage_Grotesque',sans-serif]"
+      className="inline-flex h-[34px] items-center justify-center whitespace-nowrap rounded-[8px] border font-semibold text-[#000d00] uppercase [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
       style={{ backgroundColor: bg, borderColor: border, fontSize: BADGE_TEXT_SIZE, paddingInline: fluid(14, 18) }}
     >
       {label}
@@ -167,26 +168,32 @@ function StepBadge({ label, bg, border }: { label: string; bg: string; border: s
 }
 
 function FeatureRow({ row, reversed }: { row: (typeof FEATURE_ROWS)[number]; reversed: boolean }) {
+  const { theme } = useLandingTheme();
+  const isDark = theme === 'dark';
+  const badgeBg = isDark ? '#000000' : row.badgeBg;
+  const badgeBorder = isDark ? '#2e2e2e' : row.badgeBorder;
+  const containerBorder = isDark ? 'rgba(46,46,46,0.6)' : row.badgeBorder;
+
   return (
     <motion.div
       variants={fadeInUp}
       className={cn(
-        'flex w-full flex-col items-center rounded-[32px] border bg-[#fdfdfd] lg:items-stretch',
+        'flex w-full flex-col items-center rounded-[32px] border bg-[#fdfdfd] dark:bg-[rgba(255,255,255,0.05)] lg:items-stretch',
         'shadow-[0px_10px_15px_rgba(0,0,0,0.02)]',
         reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'
       )}
-      style={{ borderColor: row.badgeBorder, padding: ROW_PADDING, gap: ROW_GAP }}
+      style={{ borderColor: containerBorder, padding: ROW_PADDING, gap: ROW_GAP }}
     >
       <div className="flex w-full flex-col items-start justify-center gap-5 lg:max-w-[580px]">
-        <StepBadge label={row.badge} bg={row.badgeBg} border={row.badgeBorder} />
+        <StepBadge label={row.badge} bg={badgeBg} border={badgeBorder} />
         <h3
-          className="m-0 w-full text-[#000d00] lg:max-w-[28rem] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 w-full text-[#000d00] lg:max-w-[28rem] [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
           style={{ fontSize: ROW_TITLE_SIZE, fontWeight: 500, letterSpacing: '-0.02em' }}
         >
           {row.title}
         </h3>
         <p
-          className="m-0 w-full font-normal text-[#454545] [font-family:Jost,sans-serif]"
+          className="m-0 w-full font-normal text-[#454545] [font-family:Jost,sans-serif] dark:text-[#d1d5db]"
           style={{ fontSize: ROW_BODY_SIZE, lineHeight: 1.5 }}
         >
           {row.description}
@@ -205,7 +212,7 @@ export function FeaturesShowcaseRows() {
   return (
     <motion.section
       aria-label="HR feature showcase"
-      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !bg-[#F9F9F9]"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10 !bg-[#F9F9F9] dark:!bg-transparent"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -217,13 +224,13 @@ export function FeaturesShowcaseRows() {
       >
         <motion.div className="flex w-full flex-col items-start gap-4 text-left" variants={fadeInUp}>
           <h2
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             Keep Your Workforce Organized
           </h2>
           <p
-            className="m-0 w-full max-w-[561px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+            className="m-0 w-full max-w-[561px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
             style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
           >
             Manage employee profiles, documents, roles, departments, and essential workforce information from a single dashboard.
