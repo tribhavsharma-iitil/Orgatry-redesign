@@ -46,9 +46,9 @@ function Initials({ name }: { name: string }) {
 /** "Amit Verma" -> "A.Verma" */
 function shortenName(name: string) {
   const parts = name.trim().split(/\s+/);
-  if (parts.length < 2) return name;
-  const [first, ...rest] = parts;
-  return `${first[0].toUpperCase()}.${rest.join(' ')}`;
+  const first = parts[0];
+  if (!first || parts.length < 2) return name;
+  return `${first.charAt(0).toUpperCase()}.${parts.slice(1).join(' ')}`;
 }
 
 /**
