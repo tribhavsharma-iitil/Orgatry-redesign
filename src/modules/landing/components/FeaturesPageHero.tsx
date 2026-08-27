@@ -68,7 +68,7 @@ export function FeaturesPageHero() {
               variant="secondary"
               onClick={() => navigate('/contact')}
               style={ctaButtonStyle}
-              className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto dark:!border-white/15 dark:bg-transparent"
+              className="h-auto w-full rounded-[12px] border !border-[#e2e2e2] bg-white uppercase [font-family:Jost,sans-serif] text-[#000d00] focus-visible:ring-[#188f44]/40 sm:w-auto dark:text-[#000d00]"
               aria-label="Request a demo"
             >
               Request a Demo

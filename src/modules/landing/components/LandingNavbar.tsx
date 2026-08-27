@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import darkLogo from '@/assets/orgatry_dark_logo.png';
-import lightLogo from '@/assets/orgatry_light_logo.png';
 import {
   memo,
   useCallback,
@@ -55,8 +54,6 @@ const NAV_ROUTE_BY_ID: Record<string, string> = {
 };
 
 function OrgatryLogo({ onNavigate }: { onNavigate: () => void }) {
-  const { theme } = useLandingTheme();
-
   return (
     <button
       type="button"
@@ -64,12 +61,7 @@ function OrgatryLogo({ onNavigate }: { onNavigate: () => void }) {
       className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#188F44]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
       aria-label="Orgatry home"
     >
-      <img
-        src={theme === 'dark' ? lightLogo : darkLogo}
-        alt="Orgatry"
-        className="lg:h-[40px] h-6 w-auto"
-        loading="eager"
-      />
+      <img src={darkLogo} alt="Orgatry" className="lg:h-[40px] h-6 w-auto" loading="eager" />
     </button>
   );
 }

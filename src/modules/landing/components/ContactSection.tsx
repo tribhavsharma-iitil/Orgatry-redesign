@@ -400,7 +400,7 @@ export function ContactSection() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative scroll-mt-28 bg-[#F7F7F7CC] dark:bg-black lg:py-20 py-10"
+      className="relative scroll-mt-28 bg-[#F7F7F7CC] dark:bg-black lg:py-32 py-16"
     >
       <motion.div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start lg:flex-row lg:justify-between"

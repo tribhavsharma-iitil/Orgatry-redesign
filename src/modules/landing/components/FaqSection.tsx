@@ -89,7 +89,7 @@ export function FaqSection() {
   return (
     <motion.section
       aria-labelledby="faq-heading"
-      className="relative bg-white dark:bg-black md:py-20 py-10"
+      className="relative bg-white dark:bg-[#FFFFFF0D] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"

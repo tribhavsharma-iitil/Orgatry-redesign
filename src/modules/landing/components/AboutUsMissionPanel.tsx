@@ -34,7 +34,7 @@ export function AboutUsMissionPanel() {
     >
       <div className="mx-auto w-full max-w-[1440px]" style={{ paddingInline: `clamp(1.5rem, 6vw, ${landingTokens.gutter}px)` }}>
         <motion.div
-          className="flex w-full flex-col items-start rounded-[20px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black"
+          className="flex w-full flex-col items-start rounded-[20px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#FFFFFF0D]"
           style={{ padding: fluid(24, 50), gap: fluid(28, 50) }}
           variants={fadeInUp}
         >
@@ -64,7 +64,7 @@ export function AboutUsMissionPanel() {
             {MISSION_CARDS.map((card) => (
               <div
                 key={card.id}
-                className="flex w-full flex-col items-start rounded-[20px] border !border-[#D4D4D499] bg-[#f9f9f9] dark:!border-[rgba(46,46,46,0.6)] dark:bg-[rgba(255,255,255,0.05)]"
+                className="flex w-full flex-col items-start rounded-[20px] border !border-[#D4D4D499] bg-[#f9f9f9] dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#000000]"
                 style={{ padding: fluid(20, 32), gap: fluid(14, 20) }}
               >
                 <h3

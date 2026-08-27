@@ -33,10 +33,10 @@ function FooterBrandBlock() {
         {landingFooter.brand}
       </p>
       <p
-        className="m-0 font-bold text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
+        className="m-0 font-noraml text-[#000d00] dark:text-white [font-family:Jost,sans-serif]"
         style={{ fontSize: TAGLINE_SIZE }}
       >
-        {landingFooter.tagline}
+        A <span className='font-bold'>YAKA</span> Brand
       </p>
       <p
         className="m-0 text-[rgba(4,5,5,0.8)] dark:text-[#d1d5db] [font-family:Jost,sans-serif]"
@@ -61,7 +61,7 @@ function FooterLinkColumns() {
       {landingFooterColumns.map((column, index) => (
         <Fragment key={column.id}>
           {index > 0 && (
-            <div aria-hidden className="self-stretch border-l border-dashed border-[#0000001A] dark:border-white/10" />
+            <div aria-hidden className="self-stretch border-l border-dashed border-[#2323231A] dark:border-white/10" />
           )}
           <div className="flex min-w-[88px] flex-col gap-4">
             <span className="sr-only">{column.title}</span>
@@ -170,7 +170,7 @@ export function LandingFooter({ withContactOverlap = true }: LandingFooterProps)
 
           <motion.div
             aria-hidden
-            className="w-full border-t border-dashed !border-[#0000001A] dark:!border-white/10"
+            className="w-full border-t border-dashed !border-[#2323231A] dark:!border-white/10"
             variants={fadeInUp}
           />
 

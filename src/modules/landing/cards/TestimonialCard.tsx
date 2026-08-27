@@ -36,7 +36,7 @@ function Initials({ name }: { name: string }) {
   return (
     <div
       aria-hidden
-      className="flex size-[40px] shrink-0 items-center justify-center rounded-[10px] bg-[#188f44] text-[16px] font-noraml text-white [font-family:Jost,sans-serif]"
+      className="flex size-[40px] shrink-0 items-center justify-center rounded-[10px] bg-[#E2E2E2] dark:bg-[#000000] text-[#000000] dark:text-white text-[16px] font-noraml [font-family:Jost,sans-serif]"
     >
       {initials}
     </div>
@@ -64,7 +64,7 @@ export const TestimonialCard = memo(function TestimonialCard({
   return (
     <article
       className={cn(
-        'box-border flex shrink-0 flex-col items-start overflow-hidden rounded-[16px] border !border-[#D4D4D499] bg-white mb-4 dark:!border-[rgba(46,46,46,0.6)] dark:bg-black',
+        'box-border flex shrink-0 flex-col items-start overflow-hidden rounded-[16px] border !border-[#D4D4D499] bg-white mb-4 dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#FFFFFF0D]',
         className
       )}
       style={{ width, padding: fluid(20, 32), gap: fluid(20, 32) }}

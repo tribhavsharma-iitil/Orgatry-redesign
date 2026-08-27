@@ -50,7 +50,7 @@ function SolutionListItem({ title, description }: { title: string; description: 
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start gap-0 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black"
+      className="flex w-full flex-col items-start gap-0 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#FFFFFF0D]"
       style={{ padding: fluid(16, 20) }}
     >
       <h3
@@ -84,7 +84,7 @@ export function SolutionsSection() {
   return (
     <motion.section
       aria-labelledby="solutions-heading"
-      className="relative scroll-mt-4 overflow-x-hidden bg-white dark:bg-black md:py-20 py-10"
+      className="relative scroll-mt-4 overflow-x-hidden bg-white dark:bg-[#FFFFFF0D] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"

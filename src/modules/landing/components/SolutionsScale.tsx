@@ -33,7 +33,7 @@ const SCALE_CARDS: readonly ScaleCard[] = [
     tag: '2–50 employees',
     title: 'Growing Businesses',
     description: 'Build organized HR processes without adding unnecessary complexity.',
-    tagBg: '#f2faff',
+    tagBg: '#D8F1FF1A',
     tagBorder: '#d8f1ff'
   },
   {
@@ -41,7 +41,7 @@ const SCALE_CARDS: readonly ScaleCard[] = [
     tag: '2–50 employees',
     title: 'Mid-Sized Enterprises',
     description: 'Manage growing teams, flows, and workforce data from a centralized platform.',
-    tagBg: '#fff2f2',
+    tagBg: '#FFF2F21A',
     tagBorder: '#ffd8d8'
   },
   {
@@ -49,7 +49,7 @@ const SCALE_CARDS: readonly ScaleCard[] = [
     tag: '2–50 employees',
     title: 'HR Teams',
     description: 'Reduce administrative work and spend more time focusing on your people.',
-    tagBg: '#fff2fb',
+    tagBg: '#FFF2FB1A',
     tagBorder: '#ffd8ef'
   },
   {
@@ -57,7 +57,7 @@ const SCALE_CARDS: readonly ScaleCard[] = [
     tag: '2–50 employees',
     title: 'Leadership Teams',
     description: 'Get clearer workforce insights to make smarter business decisions.',
-    tagBg: '#f2fff2',
+    tagBg: '#F2FFF21A',
     tagBorder: '#c6f5bc'
   }
 ] as const;

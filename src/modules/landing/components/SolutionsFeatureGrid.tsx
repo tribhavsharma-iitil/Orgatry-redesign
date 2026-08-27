@@ -92,7 +92,7 @@ function SolutionCardPanel({ card }: { card: SolutionCard }) {
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start gap-5 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-black"
+      className="flex w-full flex-col items-start gap-5 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#FFFFFF0D]"
       style={{ padding: fluid(20, 32) }}
     >
       <div
