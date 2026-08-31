@@ -14,7 +14,7 @@ export function AboutUsPageHero() {
   const navigate = useNavigate();
 
   return (
-    <section aria-labelledby="about-hero-heading" className="relative overflow-x-hidden bg-[#f9f9f9] md:py-20 py-10 !pt-40 ">
+    <section aria-labelledby="about-hero-heading" className="relative overflow-x-hidden bg-[#f9f9f9] dark:bg-transparent md:py-20 py-10 !pt-40 ">
       <div
         className="mx-auto flex w-full max-w-[1440px] flex-col items-start"
         style={{
@@ -33,7 +33,7 @@ export function AboutUsPageHero() {
             <motion.h1
               id="about-hero-heading"
               variants={heroItem}
-              className="m-0 w-full max-w-[780px] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+              className="m-0 w-full max-w-[780px] text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
               style={{ fontSize: HEADING_SIZE, lineHeight: 1.26, letterSpacing: '-0.02em' }}
             >
               <span className="font-semibold">Making HR Simpler </span>
@@ -42,7 +42,7 @@ export function AboutUsPageHero() {
             </motion.h1>
             <motion.p
               variants={heroItem}
-              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
               style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
             >
               We believe HR technology should make work easier, not add another layer of complexity. Orgatry brings

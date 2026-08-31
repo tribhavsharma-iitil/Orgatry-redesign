@@ -26,11 +26,13 @@ function resolveInitialPhase(): IntroPhase {
 }
 
 /**
- * Single source of truth for the intro state machine:
- * loading → flying → hero → scrolling → finished
- * (or skipped on mobile / reduced-motion)
+ * Single source of truth for the ONE-TIME intro flight:
+ * loading → flying → hero (terminal) — or skipped on mobile / reduced-motion.
  *
- * FlyingLogo mounts only AFTER loader hold + fade complete.
+ * FloatingLogo mounts only AFTER loader hold + fade complete, and unmounts for
+ * good once it lands at the hero. From that point on, Hero and Navbar each run
+ * their own independent, reversible scroll-position toggle (see
+ * `useLogoDockScroll`) — this provider has no further say over the logo.
  */
 export function IntroProvider({ children }: IntroProviderProps) {
   const [phase, setPhase] = useState<IntroPhase>(() => resolveInitialPhase());
@@ -52,23 +54,6 @@ export function IntroProvider({ children }: IntroProviderProps) {
     return () => window.removeEventListener('resize', onResize);
   }, [phase]);
 
-  useEffect(() => {
-    if (phase !== 'hero' && phase !== 'scrolling') return;
-
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (y >= introConfig.scrollStart) {
-        setPhase((current) => (current === 'hero' ? 'scrolling' : current));
-      } else {
-        setPhase((current) => (current === 'scrolling' ? 'hero' : current));
-      }
-    };
-
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [phase]);
-
   const completeLoader = useCallback((rect: DomRectLite) => {
     setLoaderRect(rect);
     setPhase('flying');
@@ -82,30 +67,21 @@ export function IntroProvider({ children }: IntroProviderProps) {
     setPhase((current) => (current === 'flying' ? 'hero' : current));
   }, []);
 
-  const finishIntro = useCallback(() => {
-    setPhase('finished');
-    setLoaderRect(null);
-  }, []);
-
   const value = useMemo<IntroContextValue>(
     () => ({
       phase,
       // Content may animate in once the loader overlay is gone (flying starts post-fade)
       isContentReady: phase !== 'loading',
-      // Permanent navbar icon only after docking completes (or mobile skip)
-      showNavbarLogo: phase === 'finished' || phase === 'skipped',
-      // Shift while the logo is docking into the navbar
-      shiftNavbarControls: phase === 'scrolling',
+      // Once the flight has landed (or was skipped), Hero/Navbar own the logo's visibility
+      isLogoAtHero: phase === 'hero' || phase === 'skipped',
       loaderRect,
       completeLoader,
-      arriveAtHero,
-      finishIntro
+      arriveAtHero
     }),
-    [phase, loaderRect, completeLoader, arriveAtHero, finishIntro]
+    [phase, loaderRect, completeLoader, arriveAtHero]
   );
 
-  const showFloating =
-    (phase === 'flying' || phase === 'hero' || phase === 'scrolling') && loaderRect !== null;
+  const showFloating = phase === 'flying' && loaderRect !== null;
 
   return createElement(
     IntroContext.Provider,

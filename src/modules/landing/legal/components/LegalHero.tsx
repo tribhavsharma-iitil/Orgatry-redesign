@@ -16,7 +16,7 @@ function LegalBadge({ label }: { label: string }) {
     <SectionBadge
       className={cn(
         'h-[34px] min-w-[88px] justify-center rounded-[50px] border border-[#008435] px-4',
-        'bg-[rgba(34,197,94,0.2)] text-base font-bold text-[#026229] [font-family:Manrope,sans-serif]'
+        'bg-[rgba(34,197,94,0.2)] dark:bg-[rgba(24,143,68,0.12)] text-base font-bold text-[#026229] [font-family:Manrope,sans-serif]'
       )}
     >
       {label}
@@ -29,7 +29,7 @@ export function LegalHero({ badge, title, subtitle }: LegalHeroProps) {
   return (
     <section
       aria-labelledby="legal-hero-heading"
-      className="relative overflow-hidden bg-white"
+      className="relative overflow-hidden bg-white dark:bg-transparent"
       style={{
         paddingTop: landingTokens.navbarTop + landingTokens.navbarHeight + 72,
         paddingBottom: 56
@@ -53,13 +53,13 @@ export function LegalHero({ badge, title, subtitle }: LegalHeroProps) {
           <motion.h1
             id="legal-hero-heading"
             variants={heroItem}
-            className="m-0 mt-5 text-[clamp(2rem,4vw,3rem)] font-bold leading-tight tracking-[-0.04em] text-[#171717] [font-family:Inter,sans-serif]"
+            className="m-0 mt-5 text-[clamp(2rem,4vw,3rem)] font-bold leading-tight tracking-[-0.04em] text-[#171717] dark:text-white [font-family:Inter,sans-serif]"
           >
             {title}
           </motion.h1>
           <motion.p
             variants={heroItem}
-            className="m-0 mt-4 max-w-[560px] text-base leading-7 text-[#595959] [font-family:Inter,sans-serif] md:text-lg md:leading-8"
+            className="m-0 mt-4 max-w-[560px] text-base leading-7 text-[#595959] dark:text-[#d1d5db] [font-family:Inter,sans-serif] md:text-lg md:leading-8"
           >
             {subtitle}
           </motion.p>

@@ -24,23 +24,8 @@ export const TESTIMONIAL_CARD_WIDTH = TESTIMONIAL_CARD_WIDTH_DESKTOP;
 
 const QUOTE_SIZE = fluid(15, 17);
 const NAME_SIZE = fluid(14, 15);
-const ROLE_SIZE = fluid(12.5, 13.5);
 
-function AvatarOrInitials({ src, name }: { src?: string | undefined; name: string }) {
-  if (src) {
-    return (
-      <img
-        src={src}
-        alt=""
-        width={54}
-        height={54}
-        loading="lazy"
-        decoding="async"
-        className="size-[54px] shrink-0 rounded-[10px] object-cover"
-      />
-    );
-  }
-
+function Initials({ name }: { name: string }) {
   const initials = name
     .split(' ')
     .map((part) => part[0])
@@ -51,11 +36,19 @@ function AvatarOrInitials({ src, name }: { src?: string | undefined; name: strin
   return (
     <div
       aria-hidden
-      className="flex size-[54px] shrink-0 items-center justify-center rounded-[10px] bg-[#188f44] text-[18px] font-semibold text-white [font-family:Jost,sans-serif]"
+      className="flex size-[40px] shrink-0 items-center justify-center rounded-[10px] bg-[#E2E2E2] dark:bg-[#000000] text-[#000000] dark:text-white text-[16px] font-noraml [font-family:Jost,sans-serif]"
     >
       {initials}
     </div>
   );
+}
+
+/** "Amit Verma" -> "A.Verma" */
+function shortenName(name: string) {
+  const parts = name.trim().split(/\s+/);
+  const first = parts[0];
+  if (!first || parts.length < 2) return name;
+  return `${first.charAt(0).toUpperCase()}.${parts.slice(1).join(' ')}`;
 }
 
 /**
@@ -65,46 +58,43 @@ function AvatarOrInitials({ src, name }: { src?: string | undefined; name: strin
 export const TestimonialCard = memo(function TestimonialCard({
   quote,
   name,
-  role,
-  company,
-  avatarSrc,
   className,
   width = TESTIMONIAL_CARD_WIDTH_DESKTOP
 }: TestimonialCardProps) {
   return (
     <article
       className={cn(
-        'box-border flex shrink-0 flex-col items-start overflow-hidden rounded-[16px] border !border-[#D4D4D499] bg-white mb-4',
+        'box-border flex shrink-0 flex-col items-start overflow-hidden rounded-[16px] border !border-[#D4D4D499] bg-white mb-4 dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#FFFFFF0D]',
         className
       )}
       style={{ width, padding: fluid(20, 32), gap: fluid(20, 32) }}
     >
-      <img src={quoteIcon} alt="" width={20} height={20} className="size-5 shrink-0" decoding="async" aria-hidden />
+      <img
+        src={quoteIcon}
+        alt=""
+        width={20}
+        height={20}
+        className="size-5 shrink-0 dark:invert"
+        decoding="async"
+        aria-hidden
+      />
 
       <div className="flex w-full flex-col items-start" style={{ gap: fluid(20, 32) }}>
         <p
-          className="m-0 w-full font-normal text-[#000d00] [font-family:Sora,sans-serif]"
+          className="m-0 w-full font-normal text-[#000d00] [font-family:Sora,sans-serif] dark:text-white"
           style={{ fontSize: QUOTE_SIZE, lineHeight: 1.4 }}
         >
           {quote}
         </p>
 
         <div className="flex items-center gap-4">
-          <AvatarOrInitials src={avatarSrc} name={name} />
-          <div className="flex min-w-0 flex-col items-start gap-1">
-            <p
-              className="m-0 truncate font-bold text-[#000d00] [font-family:Jost,sans-serif]"
-              style={{ fontSize: NAME_SIZE }}
-            >
-              {name}
-            </p>
-            <p
-              className="m-0 truncate font-normal text-[#878c91] [font-family:Jost,sans-serif]"
-              style={{ fontSize: ROLE_SIZE }}
-            >
-              {company ? `${role}, ${company}` : role}
-            </p>
-          </div>
+          <Initials name={name} />
+          <p
+            className="m-0 truncate font-bold text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
+            style={{ fontSize: NAME_SIZE }}
+          >
+            {shortenName(name)}
+          </p>
         </div>
       </div>
     </article>

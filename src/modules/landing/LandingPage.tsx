@@ -14,6 +14,8 @@ import { TestimonialsSection } from '@/modules/landing/components/TestimonialsSe
 import { WhyChooseUsSection } from '@/modules/landing/components/WhyChooseUsSection';
 import { useLandingDocumentMeta } from '@/modules/landing/hooks/useLandingDocumentMeta';
 import { scrollToSectionId } from '@/modules/landing/hooks/useSmoothScroll';
+import { LandingThemeProvider } from '@/modules/landing/theme/LandingThemeProvider';
+import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 import { CtaBanner } from './shared/CtaBanner';
 
 /** Scroll to `/#section` after intro so anchors from legal pages land correctly. */
@@ -41,31 +43,41 @@ function LandingHashScroller() {
   return null;
 }
 
+function LandingMain() {
+  const { theme } = useLandingTheme();
+
+  return (
+    <main
+      className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] dark:bg-black dark:text-white [font-family:Inter,sans-serif]"
+      style={{
+        backgroundImage: theme === 'dark' ? 'none' : `url(${landingBg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'top center',
+        backgroundSize: '100% auto'
+      }}
+    >
+      <LandingNavbar />
+      <HeroSection />
+      <AboutSection />
+      <SolutionsSection />
+      <WhyChooseUsSection />
+      <FaqSection />
+      <TestimonialsSection />
+      <CtaBanner />
+      <LandingFooter />
+    </main>
+  );
+}
+
 export function LandingPage() {
   useLandingDocumentMeta();
 
   return (
-    <IntroProvider>
-      <LandingHashScroller />
-      <main
-        className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] [font-family:Inter,sans-serif]"
-        style={{
-          backgroundImage: `url(${landingBg})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'top center',
-          backgroundSize: '100% auto'
-        }}
-      >
-        <LandingNavbar />
-        <HeroSection />
-        <AboutSection />
-        <SolutionsSection />
-        <WhyChooseUsSection />
-        <FaqSection />
-        <TestimonialsSection />
-        <CtaBanner />
-        <LandingFooter />
-      </main>
-    </IntroProvider>
+    <LandingThemeProvider>
+      <IntroProvider>
+        <LandingHashScroller />
+        <LandingMain />
+      </IntroProvider>
+    </LandingThemeProvider>
   );
 }

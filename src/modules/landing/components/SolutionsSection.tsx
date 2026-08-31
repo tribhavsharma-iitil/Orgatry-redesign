@@ -50,11 +50,11 @@ function SolutionListItem({ title, description }: { title: string; description: 
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start gap-0 rounded-[16px] border !border-[#D4D4D499] bg-white"
+      className="flex w-full flex-col items-start gap-0 rounded-[16px] border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#FFFFFF0D]"
       style={{ padding: fluid(16, 20) }}
     >
       <h3
-        className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+        className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
         style={{ fontSize: CARD_TITLE_SIZE, letterSpacing: '-0.03em' }}
       >
         {title}
@@ -84,7 +84,7 @@ export function SolutionsSection() {
   return (
     <motion.section
       aria-labelledby="solutions-heading"
-      className="relative scroll-mt-4 overflow-x-hidden bg-white md:py-20 py-10"
+      className="relative scroll-mt-4 overflow-x-hidden bg-white dark:bg-[#FFFFFF0D] md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -101,13 +101,13 @@ export function SolutionsSection() {
           <div className="flex w-full flex-col items-start gap-4 lg:max-w-[720px]">
             <h2
               id="solutions-heading"
-              className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+              className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
               style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
             >
               One System for Every HR Workflow
             </h2>
             <p
-              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+              className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
               style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
             >
               Our end-to-end HRMS software for workforce management eliminates all manual work to drive your business

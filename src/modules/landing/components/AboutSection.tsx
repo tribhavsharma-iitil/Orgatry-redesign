@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { fadeIn, fadeInUp, featureCardStagger } from '@/modules/landing/animations/landingMotion';
 import { landingTokens } from '@/modules/landing/constants/tokens';
+import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 import { fluid } from '@/modules/landing/utils/scale';
 
 /** Figma `273:2364` — heading 48 / body 24, toned down + fluid. */
@@ -47,7 +48,7 @@ const ABOUT_CARDS: readonly AboutCard[] = [
   {
     id: 'expertise',
     title: 'Our Expertise',
-    tags: ['Payroll', 'Recruitment', 'Performance'],
+    tags: ['Recruitment', 'Performance'],
     description: 'From hiring to payroll, we simplify every stage of the employee lifecycle with seamless HR management.',
     cardBorder: 'rgba(255,216,239,0.6)',
     tagBg: '#fff2fb',
@@ -65,15 +66,18 @@ const ABOUT_CARDS: readonly AboutCard[] = [
 ] as const;
 
 function AboutCardPanel({ card, onArrowClick }: { card: AboutCard; onArrowClick: () => void }) {
+  const { theme } = useLandingTheme();
+  const isDark = theme === 'dark';
+
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full flex-col items-start justify-end gap-5 rounded-[24px] border bg-white"
-      style={{ borderColor: card.cardBorder, padding: CARD_PAD, gap: fluid(16, 24) }}
+      className="flex w-full flex-col items-start justify-end gap-5 rounded-[24px] border bg-white dark:bg-[rgba(255,255,255,0.05)]"
+      style={{ borderColor: isDark ? 'rgba(46,46,46,0.6)' : card.cardBorder, padding: CARD_PAD, gap: fluid(16, 24) }}
     >
       <div className="flex w-full flex-col items-start" style={{ gap: fluid(12, 20) }}>
         <h3
-          className="m-0 text-[#000d00] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 text-[#000d00] dark:text-white [font-family:'Bricolage_Grotesque',sans-serif]"
           style={{ fontSize: CARD_TITLE_SIZE, fontWeight: 500, letterSpacing: '-0.03em' }}
         >
           {card.title}
@@ -82,10 +86,10 @@ function AboutCardPanel({ card, onArrowClick }: { card: AboutCard; onArrowClick:
           {card.tags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center justify-center rounded-[8px] border whitespace-nowrap text-black [font-family:Jost,sans-serif]"
+              className="inline-flex items-center justify-center rounded-[8px] border whitespace-nowrap text-black dark:text-white [font-family:Jost,sans-serif]"
               style={{
-                backgroundColor: card.tagBg,
-                borderColor: card.tagBorder,
+                backgroundColor: isDark ? '#000000' : card.tagBg,
+                borderColor: isDark ? '#2e2e2e' : card.tagBorder,
                 fontSize: TAG_TEXT_SIZE,
                 padding: `${fluid(8, 12)} ${fluid(12, 16)}`
               }}
@@ -130,7 +134,7 @@ export function AboutSection() {
     <motion.section
       id="about"
       aria-label="About Us"
-      className="relative scroll-mt-4 overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
+      className="relative scroll-mt-4 overflow-x-hidden bg-[#F7F7F7CC] dark:bg-transparent md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -142,13 +146,13 @@ export function AboutSection() {
       >
         <motion.div className="flex w-full flex-col items-start gap-4 text-left" variants={fadeInUp}>
           <h2
-            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="m-0 w-full text-[#000d00] capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             HR Infrastructure for Modern Enterprises
           </h2>
           <p
-            className="m-0 w-full max-w-[1061px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+            className="m-0 w-full max-w-[1061px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
             style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
           >
             Managing people is complex. Orgatry makes it simple. Manage your entire workforce on a single platform <br className="hidden md:block" />

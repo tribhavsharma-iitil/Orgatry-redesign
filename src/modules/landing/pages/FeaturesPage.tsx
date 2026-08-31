@@ -7,6 +7,7 @@ import { LandingFooter } from '@/modules/landing/components/LandingFooter';
 import { LandingNavbar } from '@/modules/landing/components/LandingNavbar';
 import { useLandingDocumentMeta } from '@/modules/landing/hooks/useLandingDocumentMeta';
 import { CtaBanner } from '@/modules/landing/shared/CtaBanner';
+import { LandingThemeProvider } from '@/modules/landing/theme/LandingThemeProvider';
 
 export function FeaturesPage() {
   useLandingDocumentMeta({
@@ -15,13 +16,15 @@ export function FeaturesPage() {
   });
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden text-[#171717] [font-family:Inter,sans-serif]">
-      <LandingNavbar />
-      <FeaturesPageHero />
-      <FeaturesShowcaseRows />
-      <FeaturesDesignedFor />
-      <CtaBanner />
-      <LandingFooter withContactOverlap={false} />
-    </main>
+    <LandingThemeProvider>
+      <main className="relative min-h-screen overflow-x-hidden bg-white text-[#171717] dark:bg-black dark:text-white [font-family:Inter,sans-serif]">
+        <LandingNavbar />
+        <FeaturesPageHero />
+        <FeaturesShowcaseRows />
+        <FeaturesDesignedFor />
+        <CtaBanner />
+        <LandingFooter withContactOverlap={false} />
+      </main>
+    </LandingThemeProvider>
   );
 }

@@ -33,7 +33,7 @@ function JourneyStepRow({
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex w-full items-center border !border-[#D4D4D499] bg-white"
+      className="flex w-full items-center border !border-[#D4D4D499] bg-white dark:!border-[rgba(46,46,46,0.6)] dark:bg-[#FFFFFF0D]"
       style={{
         padding: fluid(20, 32),
         gap: fluid(16, 24),
@@ -52,13 +52,13 @@ function JourneyStepRow({
       </span>
       <div className="flex flex-col items-start gap-1">
         <h3
-          className="m-0 text-[#232323] [font-family:'Bricolage_Grotesque',sans-serif]"
+          className="m-0 text-[#232323] [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
           style={{ fontSize: STEP_TITLE_SIZE }}
         >
           {step.title}
         </h3>
         <p
-          className="m-0 font-normal text-[rgba(69,69,69,0.8)] [font-family:Jost,sans-serif]"
+          className="m-0 font-normal text-[rgba(69,69,69,0.8)] [font-family:Jost,sans-serif] dark:text-[#d1d5db]"
           style={{ fontSize: STEP_BODY_SIZE, lineHeight: 1.5 }}
         >
           {step.description}
@@ -72,7 +72,7 @@ export function SolutionsJourney() {
   return (
     <motion.section
       aria-labelledby="solutions-journey-heading"
-      className="relative overflow-x-hidden bg-[#F7F7F7CC] md:py-20 py-10"
+      className="relative overflow-x-hidden bg-[#F7F7F7CC] dark:bg-transparent md:py-20 py-10"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
@@ -85,13 +85,13 @@ export function SolutionsJourney() {
         <motion.header className="flex w-full flex-col items-start gap-4" variants={fadeInUp}>
           <h2
             id="solutions-journey-heading"
-            className="m-0 w-full text-[#000d00] lg:max-w-xl capitalize [font-family:'Bricolage_Grotesque',sans-serif]"
+            className="m-0 w-full text-[#000d00] lg:max-w-xl capitalize [font-family:'Bricolage_Grotesque',sans-serif] dark:text-white"
             style={{ fontSize: HEADING_SIZE, fontWeight: 500 }}
           >
             Built For Every Stage Of The Employee Journey
           </h2>
           <p
-            className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif]"
+            className="m-0 w-full max-w-[720px] font-normal text-[#000d00] [font-family:Jost,sans-serif] dark:text-white"
             style={{ fontSize: BODY_SIZE, lineHeight: 1.5 }}
           >
             Orgatry helps HR teams manage the complete employee lifecycle from hiring and onboarding to performance and
@@ -119,7 +119,7 @@ export function SolutionsJourney() {
           </motion.div>
 
           <motion.div
-            className="w-full overflow-hidden rounded-[24px] border !border-[rgba(35,35,35,0.1)] lg:flex-1"
+            className="w-full overflow-hidden rounded-[24px] border !border-[rgba(35,35,35,0.1)] dark:!border-white/10 lg:flex-1"
             variants={fadeInUp}
           >
             <img

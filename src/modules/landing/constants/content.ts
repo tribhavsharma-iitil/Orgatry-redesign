@@ -1,6 +1,7 @@
 import type {
   ContactInfoItem,
   FAQ,
+  FooterLink,
   FooterLinkColumn,
   NavigationItem,
   SocialLink,
@@ -119,17 +120,15 @@ export const landingContactInfo: ContactInfoItem[] = [
   {
     id: 'office',
     label: 'Office',
-    value: 'Sattva Knowledge City, Hi-Tec City, Hyderabad.'
+    value: 'Sattva Knowledge City, Hi-Tech City, Hyderabad,Telangana, India, Pin - 500081'
   }
 ];
 
-/** Footer newsletter + links — Figma `285:365`. */
+/** Footer brand + links — Figma `2558:12000`. */
 export const landingFooter = {
   brand: 'Orgatry',
-  tagline: 'A YAKA Enterprise',
-  headline: ['Your Trusted Partner,', 'Because Employee Matters'] as const,
-  emailPlaceholder: 'Enter your email',
-  subscribeButton: 'Subscribe',
+  tagline: 'A YAKA Brand',
+  description: 'Your Trusted Partner, Because Employee Matters',
   copyright: 'Copyright © 2026. All Rights Reserved'
 } as const;
 
@@ -148,20 +147,17 @@ export const landingFooterColumns: FooterLinkColumn[] = [
     id: 'products',
     title: 'Products',
     links: [
-      { label: 'Ai Assistant', href: '/features' },
+      { label: 'AI Assistant', href: '/features' },
       { label: 'Mobile App', href: '/features' },
       { label: 'Account', href: '/features' },
       { label: 'Market', href: '/features' }
     ]
-  },
-  {
-    id: 'legal',
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '/privacy-policy' },
-      { label: 'T&C', href: '/terms-and-conditions' }
-    ]
   }
+];
+
+export const landingFooterLegalLinks: FooterLink[] = [
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms of service', href: '/terms-and-conditions' }
 ];
 
 export const landingSocialLinks: SocialLink[] = [
