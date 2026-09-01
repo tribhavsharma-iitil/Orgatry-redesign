@@ -206,7 +206,7 @@ jobs:
 # on:
 #   push:
 #     branches:
-#       - main
+#       - mai
 
 # env:
 #   REGISTRY: ghcr.io
