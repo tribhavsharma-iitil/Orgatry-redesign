@@ -6,6 +6,8 @@ import type { DomRectLite } from '@/components/intro/types';
 import { measureElement } from '@/components/intro/utils';
 import { useLandingTheme } from '@/modules/landing/theme/useLandingTheme';
 
+const IMAGE_TIMEOUT_MS = 5000;
+
 type LoaderProps = {
   /**
    * Fired AFTER the full hold (3000ms — brand mark for 1500ms, then the YAKA
@@ -29,6 +31,7 @@ export function Loader({ onComplete, onExited }: LoaderProps) {
   const measuredRect = useRef<DomRectLite | null>(null);
   const [visible, setVisible] = useState(true);
   const [step, setStep] = useState<'brand' | 'icon'>('brand');
+  const [imagesReady, setImagesReady] = useState(false);
   const startedFade = useRef(false);
   const finishedRef = useRef(false);
 
@@ -48,7 +51,49 @@ export function Loader({ onComplete, onExited }: LoaderProps) {
     onExited?.();
   }, [onComplete, onExited]);
 
+  /**
+   * Preload and decode both logos before starting the animation.
+   * Prevents the brand logo from blinking on first render while
+   * the browser is still decoding the image.
+   */
   useEffect(() => {
+    let cancelled = false;
+
+    const preloadImage = (src: string) =>
+      new Promise<void>((resolve) => {
+        const img = new window.Image();
+        img.onload = async () => {
+          try {
+            await img.decode();
+          } catch {
+            // decode() can fail even when the image is usable
+          }
+          resolve();
+        };
+        img.onerror = () => resolve();
+        img.src = src;
+      });
+
+    const preload = async () => {
+      await Promise.all([preloadImage(brandLogo), preloadImage(introConfig.iconLogo)]);
+      if (!cancelled) setImagesReady(true);
+    };
+
+    preload();
+    return () => {
+      cancelled = true;
+    };
+  }, [brandLogo]);
+
+  /** Safety fallback — start anyway if images take too long to decode. */
+  useEffect(() => {
+    if (imagesReady) return;
+    const timeout = window.setTimeout(() => setImagesReady(true), IMAGE_TIMEOUT_MS);
+    return () => window.clearTimeout(timeout);
+  }, [imagesReady]);
+
+  useEffect(() => {
+    if (!imagesReady) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
@@ -86,7 +131,7 @@ export function Loader({ onComplete, onExited }: LoaderProps) {
       window.clearTimeout(fallbackTimer);
       document.body.style.overflow = previousOverflow;
     };
-  }, [finish]);
+  }, [imagesReady, finish]);
 
   const size = introConfig.loaderLogoSize;
 
@@ -112,7 +157,7 @@ export function Loader({ onComplete, onExited }: LoaderProps) {
             aria-hidden
             className="pointer-events-none absolute rounded-full"
             initial={{ opacity: 0, scale: 0.4 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: imagesReady ? 1 : 0, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
             style={{
               width: size * 2.6,
@@ -122,50 +167,45 @@ export function Loader({ onComplete, onExited }: LoaderProps) {
             }}
           />
 
-          <motion.div
+          <div
             className="relative z-10 flex flex-col items-center gap-5"
-            initial={{ scale: 3.5, opacity: 0, filter: 'blur(18px)' }}
-            animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <div ref={logoBoxRef} className="relative" style={{ width: size, height: size }}>
-              <AnimatePresence mode="wait">
-                {step === 'brand' ? (
-                  <motion.img
-                    key="brand"
-                    src={brandLogo}
-                    alt="Orgatry"
-                    className="absolute inset-0 size-full object-contain"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                    decoding="async"
-                    draggable={false}
-                  />
-                ) : (
-                  <motion.div
-                    key="icon"
-                    className="absolute inset-0 flex flex-col items-center justify-center gap-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                  >
-                    <img
-                      src={introConfig.iconLogo}
-                      alt=""
-                      style={{ width: introConfig.loaderIconSize, height: introConfig.loaderIconSize }}
-                      className="object-contain dark:brightness-0 dark:invert"
-                      decoding="async"
-                      draggable={false}
-                    />
-                    <p className="m-0 whitespace-nowrap text-[11px] font-medium dark:text-[#ffffff] text-[#188f44]">
-                      A <span className="font-bold">YAKA</span> Brand
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Brand logo — always in DOM, visibility controlled by opacity */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  opacity: imagesReady && step === 'brand' ? 1 : 0,
+                  transition: 'opacity 500ms ease-in-out'
+                }}
+              >
+                <img
+                  src={brandLogo}
+                  alt="Orgatry"
+                  className="size-full object-contain"
+                  draggable={false}
+                />
+              </div>
+
+              {/* YAKA icon — always in DOM, visibility controlled by opacity */}
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center gap-2"
+                style={{
+                  opacity: imagesReady && step === 'icon' ? 1 : 0,
+                  transition: 'opacity 500ms ease-in-out'
+                }}
+              >
+                <img
+                  src={introConfig.iconLogo}
+                  alt=""
+                  style={{ width: introConfig.loaderIconSize, height: introConfig.loaderIconSize }}
+                  className="object-contain dark:brightness-0 dark:invert"
+                  draggable={false}
+                />
+                <p className="m-0 whitespace-nowrap text-[11px] font-medium dark:text-[#ffffff] text-[#188f44]">
+                  A <span className="font-bold">YAKA</span> Brand
+                </p>
+              </div>
             </div>
 
             {/* Shimmer outside the logo scale so it always sweeps at full size */}
@@ -190,7 +230,7 @@ export function Loader({ onComplete, onExited }: LoaderProps) {
                 }}
               />
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       ) : null}
     </AnimatePresence>
