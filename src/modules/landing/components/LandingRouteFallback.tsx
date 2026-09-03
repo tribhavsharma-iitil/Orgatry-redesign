@@ -1,6 +1,4 @@
 import { motion } from 'framer-motion';
-import { introConfig } from '@/components/intro';
-import orgatryLightLogo from '@/assets/orgatry_light_logo.png';
 import '@/modules/landing/styles/landing-fonts.css';
 
 /**
@@ -11,9 +9,6 @@ import '@/modules/landing/styles/landing-fonts.css';
  * flash light before the resolved theme takes over.
  */
 export function LandingRouteFallback() {
-  const size = introConfig.loaderLogoSize;
-  const isDark = document.documentElement.classList.contains('dark');
-
   return (
     <div
       className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white dark:bg-black"
@@ -21,18 +16,7 @@ export function LandingRouteFallback() {
       aria-live="polite"
       aria-label="Loading Orgatry"
     >
-      <div className="relative z-10 flex flex-col items-center gap-5">
-        <img
-          src={isDark ? orgatryLightLogo : introConfig.brandLogo}
-          alt="Orgatry"
-          width={size}
-          height={size}
-          className="object-contain"
-          style={{ width: size, height: size }}
-          decoding="async"
-          fetchPriority="high"
-        />
-
+      <div className="relative z-10 flex flex-col items-center">
         <div
           className="overflow-hidden rounded-full bg-[#e8e8ea] dark:bg-white/10"
           style={{ width: 80, height: 2 }}
